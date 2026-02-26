@@ -1,42 +1,1140 @@
 {\rtf1\ansi\ansicpg936\cocoartf2867
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red15\green112\blue1;\red255\green255\blue254;\red0\green0\blue0;
+\red0\green0\blue255;\red14\green110\blue109;\red144\green1\blue18;\red19\green118\blue70;\red191\green28\blue37;
+}
+{\*\expandedcolortbl;;\cssrgb\c0\c50196\c0;\cssrgb\c100000\c100000\c99608;\cssrgb\c0\c0\c0;
+\cssrgb\c0\c0\c100000;\cssrgb\c0\c50196\c50196;\cssrgb\c63922\c8235\c8235;\cssrgb\c3529\c52549\c34510;\cssrgb\c80392\c19216\c19216;
+}
 \paperw11900\paperh16840\margl1440\margr1440\vieww12720\viewh7800\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\deftab720
+\pard\pardeftab720\partightenfactor0
 
-\f0\fs24 \cf0 import streamlit as st\
-import google.generativeai as genai\
-import os\
+\f0\fs24 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 /**\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * @license\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  * SPDX-License-Identifier: Apache-2.0\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2  */\cf0 \cb1 \strokec4 \
 \
-# 1. \uc0\u39029 \u38754 \u35774 \u32622 \u65288 \u25163 \u26426 \u31471 \u26174 \u31034 \u30340 \u26631 \u39064 \u21644 \u22270 \u26631 \u65289 \
-st.set_page_config(page_title="\uc0\u25105 \u30340  AI \u21161 \u25163 ", page_icon="\u55358 \u56598 ")\
-st.title("\uc0\u55357 \u56960  \u25105 \u30340  Gemini AI \u24212 \u29992 ")\
+\cf5 \cb3 \strokec5 import\cf0 \strokec4  \cf6 \strokec6 React\cf0 \strokec4 , \{ useState, useEffect, useCallback \} \cf5 \strokec5 from\cf0 \strokec4  \cf7 \strokec7 'react'\cf0 \strokec4 ;\cb1 \
+\cf5 \cb3 \strokec5 import\cf0 \strokec4  \{ motion, \cf6 \strokec6 AnimatePresence\cf0 \strokec4  \} \cf5 \strokec5 from\cf0 \strokec4  \cf7 \strokec7 'motion/react'\cf0 \strokec4 ;\cb1 \
+\cf5 \cb3 \strokec5 import\cf0 \strokec4  \{ \cb1 \
+\cb3   \cf6 \strokec6 Utensils\cf0 \strokec4 , \cf6 \strokec6 Shirt\cf0 \strokec4 , \cf6 \strokec6 Sparkles\cf0 \strokec4 , \cf6 \strokec6 RefreshCw\cf0 \strokec4 , \cf6 \strokec6 ChevronRight\cf0 \strokec4 , \cb1 \
+\cb3   \cf6 \strokec6 Smile\cf0 \strokec4 , \cf6 \strokec6 Frown\cf0 \strokec4 , \cf6 \strokec6 Meh\cf0 \strokec4 , \cf6 \strokec6 Zap\cf0 \strokec4 , \cf6 \strokec6 Moon\cf0 \strokec4 , \cf6 \strokec6 Target\cf0 \strokec4 , \cf6 \strokec6 Palette\cf0 \strokec4 , \cf6 \strokec6 Hash\cf0 \strokec4 ,\cb1 \
+\cb3   \cf6 \strokec6 LayoutDashboard\cf0 \strokec4 , \cf6 \strokec6 CheckSquare\cf0 \strokec4 , \cf6 \strokec6 PenLine\cf0 \strokec4 , \cf6 \strokec6 Plus\cf0 \strokec4 , \cf6 \strokec6 Trash2\cf0 \strokec4 , \cf6 \strokec6 CheckCircle2\cf0 \strokec4 , \cf6 \strokec6 Circle\cf0 \strokec4 ,\cb1 \
+\cb3   \cf6 \strokec6 BrainCircuit\cf0 \strokec4 , \cf6 \strokec6 Loader2\cf0 \strokec4 , \cf6 \strokec6 Sparkle\cf0 \strokec4 , \cf6 \strokec6 Share2\cf0 \strokec4 , \cf6 \strokec6 X\cf0 \strokec4 , \cf6 \strokec6 Calendar\cf0 \cb1 \strokec4 \
+\cb3 \} \cf5 \strokec5 from\cf0 \strokec4  \cf7 \strokec7 'lucide-react'\cf0 \strokec4 ;\cb1 \
+\cf5 \cb3 \strokec5 import\cf0 \strokec4  \{ \cf6 \strokec6 FORTUNE_LOTS\cf0 \strokec4 , \cf6 \strokec6 FortuneLot\cf0 \strokec4 , \cf6 \strokec6 Recommendation\cf0 \strokec4  \} \cf5 \strokec5 from\cf0 \strokec4  \cf7 \strokec7 './constants'\cf0 \strokec4 ;\cb1 \
+\cf5 \cb3 \strokec5 import\cf0 \strokec4  \{ clsx, \cf5 \strokec5 type\cf0 \strokec4  \cf6 \strokec6 ClassValue\cf0 \strokec4  \} \cf5 \strokec5 from\cf0 \strokec4  \cf7 \strokec7 'clsx'\cf0 \strokec4 ;\cb1 \
+\cf5 \cb3 \strokec5 import\cf0 \strokec4  \{ twMerge \} \cf5 \strokec5 from\cf0 \strokec4  \cf7 \strokec7 'tailwind-merge'\cf0 \strokec4 ;\cb1 \
+\cf5 \cb3 \strokec5 import\cf0 \strokec4  \{ \cf6 \strokec6 GoogleGenAI\cf0 \strokec4  \} \cf5 \strokec5 from\cf0 \strokec4  \cf7 \strokec7 "@google/genai"\cf0 \strokec4 ;\cb1 \
 \
-# 2. \uc0\u20174 \u20113 \u31471 \u35774 \u32622 \u20013 \u35835 \u21462  API Key (\u23433 \u20840 \u20570 \u27861 )\
-# \uc0\u37096 \u32626 \u21040  Streamlit Cloud \u21518 \u65292 \u22312  Secrets \u37324 \u37197 \u32622 \u36825 \u20010  Key\
-api_key = st.secrets["GEMINI_API_KEY"]\
+\cf5 \cb3 \strokec5 const\cf0 \strokec4  ai = \cf5 \strokec5 new\cf0 \strokec4  \cf6 \strokec6 GoogleGenAI\cf0 \strokec4 (\{ apiKey: process.env.\cf6 \strokec6 GEMINI_API_KEY\cf0 \strokec4  \});\cb1 \
 \
-if not api_key:\
-    st.error("\uc0\u35831 \u20808 \u22312  Streamlit Secrets \u20013 \u37197 \u32622  API Key\u65281 ")\
-else:\
-    genai.configure(api_key=api_key)\
-    model = genai.GenerativeModel('gemini-1.5-flash')\
+\cf5 \cb3 \strokec5 function\cf0 \strokec4  cn(...inputs: \cf6 \strokec6 ClassValue\cf0 \strokec4 []) \{\cb1 \
+\cb3   \cf5 \strokec5 return\cf0 \strokec4  twMerge(clsx(inputs));\cb1 \
+\cb3 \}\cb1 \
 \
-    # 3. \uc0\u31616 \u21333 \u30340 \u32842 \u22825 \u30028 \u38754 \
-    if "messages" not in st.session_state:\
-        st.session_state.messages = []\
+\cf5 \cb3 \strokec5 type\cf0 \strokec4  \cf6 \strokec6 AppStep\cf0 \strokec4  = \cf7 \strokec7 'drawing'\cf0 \strokec4  | \cf7 \strokec7 'result'\cf0 \strokec4  | \cf7 \strokec7 'mood'\cf0 \strokec4  | \cf7 \strokec7 'loading'\cf0 \strokec4  | \cf7 \strokec7 'dashboard'\cf0 \strokec4 ;\cb1 \
+\cf5 \cb3 \strokec5 type\cf0 \strokec4  \cf6 \strokec6 DashboardTab\cf0 \strokec4  = \cf7 \strokec7 'oracle'\cf0 \strokec4  | \cf7 \strokec7 'todo'\cf0 \strokec4  | \cf7 \strokec7 'review'\cf0 \strokec4  | \cf7 \strokec7 'history'\cf0 \strokec4 ;\cb1 \
 \
-    for message in st.session_state.messages:\
-        with st.chat_message(message["role"]):\
-            st.markdown(message["content"])\
+\cf5 \cb3 \strokec5 interface\cf0 \strokec4  \cf6 \strokec6 Todo\cf0 \strokec4  \{\cb1 \
+\cb3   id: \cf5 \strokec5 string\cf0 \strokec4 ;\cb1 \
+\cb3   text: \cf5 \strokec5 string\cf0 \strokec4 ;\cb1 \
+\cb3   completed: \cf5 \strokec5 boolean\cf0 \strokec4 ;\cb1 \
+\cb3   completionTime?: \cf5 \strokec5 string\cf0 \strokec4 ;\cb1 \
+\cb3   completionMood?: \cf5 \strokec5 string\cf0 \strokec4 ;\cb1 \
+\cb3 \}\cb1 \
 \
-    if prompt := st.chat_input("\uc0\u24819 \u38382 \u28857 \u20160 \u20040 \u65311 "):\
-        st.session_state.messages.append(\{"role": "user", "content": prompt\})\
-        with st.chat_message("user"):\
-            st.markdown(prompt)\
+\cf5 \cb3 \strokec5 interface\cf0 \strokec4  \cf6 \strokec6 HistoryEntry\cf0 \strokec4  \{\cb1 \
+\cb3   date: \cf5 \strokec5 string\cf0 \strokec4 ; \cf2 \strokec2 // YYYY-MM-DD\cf0 \cb1 \strokec4 \
+\cb3   lot: \cf6 \strokec6 FortuneLot\cf0 \strokec4  | \cf5 \strokec5 null\cf0 \strokec4 ;\cb1 \
+\cb3   todos: \cf6 \strokec6 Todo\cf0 \strokec4 [];\cb1 \
+\cb3   mood: \cf5 \strokec5 string\cf0 \strokec4  | \cf5 \strokec5 null\cf0 \strokec4 ;\cb1 \
+\cb3   reflection: \cf5 \strokec5 string\cf0 \strokec4 ;\cb1 \
+\cb3   aiReport?: \cf5 \strokec5 string\cf0 \strokec4 ;\cb1 \
+\cb3 \}\cb1 \
 \
-        with st.chat_message("assistant"):\
-            response = model.generate_content(prompt)\
-            st.markdown(response.text)\
-            st.session_state.messages.append(\{"role": "assistant", "content": response.text\})}
+\cf5 \cb3 \strokec5 const\cf0 \strokec4  \cf6 \strokec6 MOODS\cf0 \strokec4  = [\cb1 \
+\cb3   \{ id: \cf7 \strokec7 'happy'\cf0 \strokec4 , icon: \cf6 \strokec6 Smile\cf0 \strokec4 , label: \cf7 \strokec7 '\uc0\u21916 \u24742 '\cf0 \strokec4 , color: \cf7 \strokec7 'text-yellow-500'\cf0 \strokec4 , bg: \cf7 \strokec7 'bg-yellow-50'\cf0 \strokec4  \},\cb1 \
+\cb3   \{ id: \cf7 \strokec7 'calm'\cf0 \strokec4 , icon: \cf6 \strokec6 Moon\cf0 \strokec4 , label: \cf7 \strokec7 '\uc0\u24179 \u38745 '\cf0 \strokec4 , color: \cf7 \strokec7 'text-blue-500'\cf0 \strokec4 , bg: \cf7 \strokec7 'bg-blue-50'\cf0 \strokec4  \},\cb1 \
+\cb3   \{ id: \cf7 \strokec7 'tired'\cf0 \strokec4 , icon: \cf6 \strokec6 Meh\cf0 \strokec4 , label: \cf7 \strokec7 '\uc0\u30130 \u24811 '\cf0 \strokec4 , color: \cf7 \strokec7 'text-stone-500'\cf0 \strokec4 , bg: \cf7 \strokec7 'bg-stone-50'\cf0 \strokec4  \},\cb1 \
+\cb3   \{ id: \cf7 \strokec7 'energetic'\cf0 \strokec4 , icon: \cf6 \strokec6 Zap\cf0 \strokec4 , label: \cf7 \strokec7 '\uc0\u27963 \u21147 '\cf0 \strokec4 , color: \cf7 \strokec7 'text-orange-500'\cf0 \strokec4 , bg: \cf7 \strokec7 'bg-orange-50'\cf0 \strokec4  \},\cb1 \
+\cb3   \{ id: \cf7 \strokec7 'sad'\cf0 \strokec4 , icon: \cf6 \strokec6 Frown\cf0 \strokec4 , label: \cf7 \strokec7 '\uc0\u20302 \u33853 '\cf0 \strokec4 , color: \cf7 \strokec7 'text-indigo-500'\cf0 \strokec4 , bg: \cf7 \strokec7 'bg-indigo-50'\cf0 \strokec4  \},\cb1 \
+\cb3 ];\cb1 \
+\
+\cf5 \cb3 \strokec5 export\cf0 \strokec4  \cf5 \strokec5 default\cf0 \strokec4  \cf5 \strokec5 function\cf0 \strokec4  \cf6 \strokec6 App\cf0 \strokec4 () \{\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [step, setStep] = useState<\cf6 \strokec6 AppStep\cf0 \strokec4 >(\cf7 \strokec7 'drawing'\cf0 \strokec4 );\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [activeTab, setActiveTab] = useState<\cf6 \strokec6 DashboardTab\cf0 \strokec4 >(\cf7 \strokec7 'oracle'\cf0 \strokec4 );\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [isShaking, setIsShaking] = useState(\cf5 \strokec5 false\cf0 \strokec4 );\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [currentLot, setCurrentLot] = useState<\cf6 \strokec6 FortuneLot\cf0 \strokec4  | \cf5 \strokec5 null\cf0 \strokec4 >(\cf5 \strokec5 null\cf0 \strokec4 );\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [currentRecommendation, setCurrentRecommendation] = useState<\cf6 \strokec6 Recommendation\cf0 \strokec4  | \cf5 \strokec5 null\cf0 \strokec4 >(\cf5 \strokec5 null\cf0 \strokec4 );\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [aiInterpretation, setAiInterpretation] = useState<\cf5 \strokec5 string\cf0 \strokec4 >(\cf7 \strokec7 ''\cf0 \strokec4 );\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [selectedMood, setSelectedMood] = useState<\cf5 \strokec5 string\cf0 \strokec4  | \cf5 \strokec5 null\cf0 \strokec4 >(\cf5 \strokec5 null\cf0 \strokec4 );\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [isLoadingAi, setIsLoadingAi] = useState(\cf5 \strokec5 false\cf0 \strokec4 );\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [userIntention, setUserIntention] = useState(\cf7 \strokec7 ''\cf0 \strokec4 );\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [showShareModal, setShowShareModal] = useState(\cf5 \strokec5 false\cf0 \strokec4 );\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [selectedDetail, setSelectedDetail] = useState<\{ label: \cf5 \strokec5 string\cf0 \strokec4 ; title: \cf5 \strokec5 string\cf0 \strokec4 ; description: \cf5 \strokec5 string\cf0 \strokec4 ; icon: \cf5 \strokec5 any\cf0 \strokec4 ; color: \cf5 \strokec5 string\cf0 \strokec4 ; bg: \cf5 \strokec5 string\cf0 \strokec4  \} | \cf5 \strokec5 null\cf0 \strokec4 >(\cf5 \strokec5 null\cf0 \strokec4 );\cb1 \
+\cb3   \cb1 \
+\cb3   \cf2 \strokec2 // Todo & Review State\cf0 \cb1 \strokec4 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [todos, setTodos] = useState<\cf6 \strokec6 Todo\cf0 \strokec4 []>([]);\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [newTodo, setNewTodo] = useState(\cf7 \strokec7 ''\cf0 \strokec4 );\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [dailyReview, setDailyReview] = useState(\cf7 \strokec7 ''\cf0 \strokec4 );\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [aiReport, setAiReport] = useState(\cf7 \strokec7 ''\cf0 \strokec4 );\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [history, setHistory] = useState<\cf6 \strokec6 Record\cf0 \strokec4 <\cf5 \strokec5 string\cf0 \strokec4 , \cf6 \strokec6 HistoryEntry\cf0 \strokec4 >>(\{\});\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [selectedHistoryDate, setSelectedHistoryDate] = useState<\cf5 \strokec5 string\cf0 \strokec4  | \cf5 \strokec5 null\cf0 \strokec4 >(\cf5 \strokec5 null\cf0 \strokec4 );\cb1 \
+\
+\cb3   \cf2 \strokec2 // Load history from localStorage\cf0 \cb1 \strokec4 \
+\cb3   useEffect(() => \{\cb1 \
+\cb3     \cf5 \strokec5 const\cf0 \strokec4  savedHistory = localStorage.getItem(\cf7 \strokec7 'oracle_history'\cf0 \strokec4 );\cb1 \
+\cb3     \cf5 \strokec5 if\cf0 \strokec4  (savedHistory) \{\cb1 \
+\cb3       \cf5 \strokec5 try\cf0 \strokec4  \{\cb1 \
+\cb3         setHistory(\cf6 \strokec6 JSON\cf0 \strokec4 .parse(savedHistory));\cb1 \
+\cb3       \} \cf5 \strokec5 catch\cf0 \strokec4  (e) \{\cb1 \
+\cb3         console.error(\cf7 \strokec7 "Failed to load history"\cf0 \strokec4 , e);\cb1 \
+\cb3       \}\cb1 \
+\cb3     \}\cb1 \
+\cb3   \}, []);\cb1 \
+\
+\cb3   \cf2 \strokec2 // Auto-save current day to history\cf0 \cb1 \strokec4 \
+\cb3   useEffect(() => \{\cb1 \
+\cb3     \cf5 \strokec5 const\cf0 \strokec4  today = \cf5 \strokec5 new\cf0 \strokec4  \cf6 \strokec6 Date\cf0 \strokec4 ().toISOString().split(\cf7 \strokec7 'T'\cf0 \strokec4 )[\cf8 \strokec8 0\cf0 \strokec4 ];\cb1 \
+\cb3     \cf5 \strokec5 const\cf0 \strokec4  entry: \cf6 \strokec6 HistoryEntry\cf0 \strokec4  = \{\cb1 \
+\cb3       date: today,\cb1 \
+\cb3       lot: currentLot,\cb1 \
+\cb3       todos: todos,\cb1 \
+\cb3       mood: selectedMood,\cb1 \
+\cb3       reflection: dailyReview,\cb1 \
+\cb3       aiReport: aiReport\cb1 \
+\cb3     \};\cb1 \
+\cb3     \cb1 \
+\cb3     \cf5 \strokec5 const\cf0 \strokec4  newHistory = \{ ...history, [today]: entry \};\cb1 \
+\cb3     setHistory(newHistory);\cb1 \
+\cb3     localStorage.setItem(\cf7 \strokec7 'oracle_history'\cf0 \strokec4 , \cf6 \strokec6 JSON\cf0 \strokec4 .stringify(newHistory));\cb1 \
+\cb3   \}, [currentLot, todos, selectedMood, dailyReview]);\cb1 \
+\
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  drawLot = useCallback(() => \{\cb1 \
+\cb3     \cf5 \strokec5 if\cf0 \strokec4  (step !== \cf7 \strokec7 'drawing'\cf0 \strokec4  || isShaking) \cf5 \strokec5 return\cf0 \strokec4 ;\cb1 \
+\cb3     \cb1 \
+\cb3     setIsShaking(\cf5 \strokec5 true\cf0 \strokec4 );\cb1 \
+\cb3     setCurrentLot(\cf5 \strokec5 null\cf0 \strokec4 );\cb1 \
+\cb3     setCurrentRecommendation(\cf5 \strokec5 null\cf0 \strokec4 );\cb1 \
+\cb3     setAiInterpretation(\cf7 \strokec7 ''\cf0 \strokec4 );\cb1 \
+\
+\cb3     \cf2 \strokec2 // Simulate shaking time\cf0 \cb1 \strokec4 \
+\cb3     setTimeout(() => \{\cb1 \
+\cb3       setIsShaking(\cf5 \strokec5 false\cf0 \strokec4 );\cb1 \
+\cb3       \cf5 \strokec5 const\cf0 \strokec4  randomIndex = \cf6 \strokec6 Math\cf0 \strokec4 .floor(\cf6 \strokec6 Math\cf0 \strokec4 .random() * \cf6 \strokec6 FORTUNE_LOTS\cf0 \strokec4 .length);\cb1 \
+\cb3       \cf5 \strokec5 const\cf0 \strokec4  lot = \cf6 \strokec6 FORTUNE_LOTS\cf0 \strokec4 [randomIndex];\cb1 \
+\cb3       setCurrentLot(lot);\cb1 \
+\cb3       setStep(\cf7 \strokec7 'result'\cf0 \strokec4 );\cb1 \
+\cb3     \}, \cf8 \strokec8 1200\cf0 \strokec4 );\cb1 \
+\cb3   \}, [step, isShaking]);\cb1 \
+\
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  generateAiInsight = \cf5 \strokec5 async\cf0 \strokec4  (moodId: \cf5 \strokec5 string\cf0 \strokec4 , intention?: \cf5 \strokec5 string\cf0 \strokec4 , retryCount = \cf8 \strokec8 0\cf0 \strokec4 ) => \{\cb1 \
+\cb3     \cf5 \strokec5 if\cf0 \strokec4  (!currentLot) \cf5 \strokec5 return\cf0 \strokec4 ;\cb1 \
+\cb3     \cb1 \
+\cb3     \cf5 \strokec5 if\cf0 \strokec4  (retryCount === \cf8 \strokec8 0\cf0 \strokec4 ) setStep(\cf7 \strokec7 'loading'\cf0 \strokec4 );\cb1 \
+\cb3     setIsLoadingAi(\cf5 \strokec5 true\cf0 \strokec4 );\cb1 \
+\cb3     \cb1 \
+\cb3     \cf5 \strokec5 const\cf0 \strokec4  moodLabel = \cf6 \strokec6 MOODS\cf0 \strokec4 .find(m => m.id === moodId)?.label || \cf7 \strokec7 '\uc0\u24179 \u24120 '\cf0 \strokec4 ;\cb1 \
+\cb3     \cf5 \strokec5 const\cf0 \strokec4  intentionContext = intention ? \cf7 \strokec7 `\uc0\u29992 \u25143 \u34920 \u36798 \u20102 \u29305 \u21035 \u30340 \u24847 \u24895 \u25110 \u30446 \u26631 \u65306 \cf0 \strokec4 $\{intention\}\cf7 \strokec7 \uc0\u12290 \u35831 \u21153 \u24517 \u32467 \u21512 \u36825 \u20010 \u24847 \u24895 \u26469 \u35843 \u25972 \u35299 \u35835 \u21644 \u24314 \u35758 \u12290 `\cf0 \strokec4  : \cf7 \strokec7 ''\cf0 \strokec4 ;\cb1 \
+\cb3     \cb1 \
+\cb3     \cf5 \strokec5 try\cf0 \strokec4  \{\cb1 \
+\cb3       \cf5 \strokec5 const\cf0 \strokec4  response = \cf5 \strokec5 await\cf0 \strokec4  ai.models.generateContent(\{\cb1 \
+\cb3         model: \cf7 \strokec7 "gemini-flash-latest"\cf0 \strokec4 ,\cb1 \
+\cb3         contents: \cf7 \strokec7 `\uc0\u20320 \u26159 \u19968 \u20301 \u29616 \u20195 \u31109 \u24847 \u21344 \u21340 \u24072 \u12290 \u29992 \u25143 \u25277 \u21040 \u20102 \u31614 \u20301 \u65306 \cf0 \strokec4 $\{currentLot.title\}\cf7 \strokec7 \uc0\u65292 \u25551 \u36848 \u20026 \u65306 \cf0 \strokec4 $\{currentLot.description\}\cf7 \strokec7 \uc0\u12290 \u29992 \u25143 \u24403 \u19979 \u30340 \u24515 \u24773 \u26159 \u65306 \cf0 \strokec4 $\{moodLabel\}\cf7 \strokec7 \uc0\u12290 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         \cf0 \strokec4 $\{intentionContext\}\cb1 \
+\cf7 \cb3 \strokec7         \uc0\u35831 \u26681 \u25454 \u36825 \u20123 \u20449 \u24687 \u65292 \u20026 \u29992 \u25143 \u29983 \u25104 \u65306 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         1. \uc0\u19968 \u27573 100\u23383 \u20197 \u20869 \u30340 \u28145 \u24230 \u28789 \u24863 \u35299 \u35835 \u65288 interpretation\u65289 \u12290 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         2. \uc0\u22235 \u20010 \u31867 \u21035 \u30340 \u20855 \u20307 \u24314 \u35758 \u65306 \u39135 \u65288 eat\u65289 \u12289 \u31359 \u65288 wear\u65289 \u12289 \u29992 \u65288 use\u65289 \u12289 \u34892 \u65288 action\u65289 \u12290 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         \uc0\u39118 \u26684 \u35201 \u27714 \u65306 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         - \uc0\u35821 \u35328 \u39118 \u26684 \u65306 \u26085 \u24120 \u12289 \u31616 \u30701 \u12289 \u29983 \u27963 \u21270 \u65292 \u20687 \u26379 \u21451 \u38388 \u30340 \u38543 \u21475 \u24314 \u35758 \u12290 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         - \uc0\u26631 \u39064 \u65288 title\u65289 \u65306 \u26497 \u20854 \u31616 \u30701 \u65292 3-5\u20010 \u23383 \u12290 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         - \uc0\u25551 \u36848 \u65288 description\u65289 \u65306 50\u23383 \u20197 \u20869 \u65292 \u20855 \u20307 \u19988 \u26377 \u29983 \u27963 \u27668 \u24687 \u12290 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         \uc0\u35831 \u20197  JSON \u26684 \u24335 \u36820 \u22238 \u65292 \u32467 \u26500 \u22914 \u19979 \u65306 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         \{\cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7           "interpretation": "...",\cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7           "recommendation": \{\cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7             "eat": \{ "title": "...", "description": "..." \},\cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7             "wear": \{ "title": "...", "description": "..." \},\cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7             "use": \{ "title": "...", "description": "..." \},\cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7             "action": \{ "title": "...", "description": "..." \}\cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7           \}\cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         \}`\cf0 \strokec4 ,\cb1 \
+\cb3         config: \{\cb1 \
+\cb3           responseMimeType: \cf7 \strokec7 "application/json"\cf0 \cb1 \strokec4 \
+\cb3         \}\cb1 \
+\cb3       \});\cb1 \
+\
+\cb3       \cf5 \strokec5 const\cf0 \strokec4  result = \cf6 \strokec6 JSON\cf0 \strokec4 .parse(response.text || \cf7 \strokec7 '\{\}'\cf0 \strokec4 );\cb1 \
+\cb3       setAiInterpretation(result.interpretation || \cf7 \strokec7 '\uc0\u38745 \u24515 \u24863 \u21463 \u24403 \u19979 \u30340 \u33021 \u37327 \u27969 \u36716 \u12290 '\cf0 \strokec4 );\cb1 \
+\cb3       setCurrentRecommendation(result.recommendation);\cb1 \
+\cb3       setStep(\cf7 \strokec7 'dashboard'\cf0 \strokec4 );\cb1 \
+\cb3     \} \cf5 \strokec5 catch\cf0 \strokec4  (error) \{\cb1 \
+\cb3       console.error(\cf7 \strokec7 `AI Generation failed (attempt \cf0 \strokec4 $\{retryCount + \cf8 \strokec8 1\cf0 \strokec4 \}\cf7 \strokec7 ):`\cf0 \strokec4 , error);\cb1 \
+\cb3       \cf5 \strokec5 if\cf0 \strokec4  (retryCount < \cf8 \strokec8 2\cf0 \strokec4 ) \{\cb1 \
+\cb3         \cf2 \strokec2 // Simple exponential backoff\cf0 \cb1 \strokec4 \
+\cb3         setTimeout(() => generateAiInsight(moodId, intention, retryCount + \cf8 \strokec8 1\cf0 \strokec4 ), \cf8 \strokec8 1000\cf0 \strokec4  * (retryCount + \cf8 \strokec8 1\cf0 \strokec4 ));\cb1 \
+\cb3         \cf5 \strokec5 return\cf0 \strokec4 ;\cb1 \
+\cb3       \}\cb1 \
+\cb3       setAiInterpretation(\cf7 \strokec7 "\uc0\u28789 \u24863 \u27491 \u22312 \u37213 \u37247 \u20013 \u65292 \u35831 \u20445 \u25345 \u20869 \u24515 \u30340 \u24179 \u38745 \u12290 \u30446 \u21069 \u36830 \u25509 \u26143 \u36784 \u30340 \u36890 \u36947 \u26377 \u20123 \u25317 \u25380 \u65292 \u35831 \u31245 \u21518 \u20877 \u35797 \u12290 "\cf0 \strokec4 );\cb1 \
+\cb3       setStep(\cf7 \strokec7 'dashboard'\cf0 \strokec4 );\cb1 \
+\cb3     \} \cf5 \strokec5 finally\cf0 \strokec4  \{\cb1 \
+\cb3       \cf5 \strokec5 if\cf0 \strokec4  (retryCount >= \cf8 \strokec8 2\cf0 \strokec4  || !isLoadingAi) \{\cb1 \
+\cb3         setIsLoadingAi(\cf5 \strokec5 false\cf0 \strokec4 );\cb1 \
+\cb3       \}\cb1 \
+\cb3     \}\cb1 \
+\cb3   \};\cb1 \
+\
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  generateDailyReflection = \cf5 \strokec5 async\cf0 \strokec4  (retryCount = \cf8 \strokec8 0\cf0 \strokec4 ) => \{\cb1 \
+\cb3     \cf5 \strokec5 if\cf0 \strokec4  (!dailyReview && todos.length === \cf8 \strokec8 0\cf0 \strokec4 ) \cf5 \strokec5 return\cf0 \strokec4 ;\cb1 \
+\cb3     \cb1 \
+\cb3     setIsLoadingAi(\cf5 \strokec5 true\cf0 \strokec4 );\cb1 \
+\cb3     \cf5 \strokec5 try\cf0 \strokec4  \{\cb1 \
+\cb3       \cf5 \strokec5 const\cf0 \strokec4  todoList = todos.map(t => \{\cb1 \
+\cb3         \cf5 \strokec5 const\cf0 \strokec4  mood = \cf6 \strokec6 MOODS\cf0 \strokec4 .find(m => m.id === t.completionMood)?.label || \cf7 \strokec7 '\uc0\u26410 \u35760 \u24405 '\cf0 \strokec4 ;\cb1 \
+\cb3         \cf5 \strokec5 return\cf0 \strokec4  \cf7 \strokec7 `\cf0 \strokec4 $\{t.completed ? \cf7 \strokec7 '[\uc0\u24050 \u23436 \u25104 ]'\cf0 \strokec4  : \cf7 \strokec7 '[\uc0\u26410 \u23436 \u25104 ]'\cf0 \strokec4 \}\cf7 \strokec7  \cf0 \strokec4 $\{t.text\}\cf7 \strokec7  \cf0 \strokec4 $\{t.completed ? \cf7 \strokec7 `(\uc0\u23436 \u25104 \u26102 \u38388 : \cf0 \strokec4 $\{t.completionTime || \cf7 \strokec7 '\uc0\u26410 \u35760 \u24405 '\cf0 \strokec4 \}\cf7 \strokec7 , \uc0\u23436 \u25104 \u24515 \u24773 : \cf0 \strokec4 $\{mood\}\cf7 \strokec7 )`\cf0 \strokec4  : \cf7 \strokec7 ''\cf0 \strokec4 \}\cf7 \strokec7 `\cf0 \strokec4 ;\cb1 \
+\cb3       \}).join(\cf7 \strokec7 '\\n'\cf0 \strokec4 );\cb1 \
+\cb3       \cb1 \
+\cb3       \cf5 \strokec5 const\cf0 \strokec4  response = \cf5 \strokec5 await\cf0 \strokec4  ai.models.generateContent(\{\cb1 \
+\cb3         model: \cf7 \strokec7 "gemini-flash-latest"\cf0 \strokec4 ,\cb1 \
+\cb3         contents: \cf7 \strokec7 `\uc0\u20320 \u26159 \u19968 \u20301 \u27934 \u23519 \u20154 \u24515 \u30340 \u29616 \u20195 \u31109 \u24847 \u21344 \u21340 \u24072 \u12290 \u35831 \u26681 \u25454 \u20197 \u19979 \u20449 \u24687 \u65292 \u20026 \u29992 \u25143 \u25552 \u20379 \u19968 \u20221 \u26497 \u20855 \u38024 \u23545 \u24615 \u30340 \'93\u28789 \u39746 \u25104 \u38271 \u25253 \u21578 \'94\u12290 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         \uc0\u12304 \u20170 \u26085 \u32972 \u26223 \u12305 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         - \uc0\u31614 \u20301 \u21551 \u31034 \u65306 \cf0 \strokec4 $\{currentLot?.title\}\cf7 \strokec7  (\cf0 \strokec4 $\{currentLot?.description\}\cf7 \strokec7 )\cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         - \uc0\u26680 \u24515 \u24515 \u24773 \u65306 \cf0 \strokec4 $\{selectedMood\}\cb1 \
+\cf7 \cb3 \strokec7         \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         \uc0\u12304 \u34892 \u21160 \u36712 \u36857 \u12305 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         \cf0 \strokec4 $\{todoList\}\cb1 \
+\cf7 \cb3 \strokec7         \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         \uc0\u12304 \u20869 \u24515 \u29420 \u30333 \u12305 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         "\cf0 \strokec4 $\{dailyReview\}\cf7 \strokec7 "\cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         \uc0\u12304 \u22797 \u30424 \u35201 \u27714 \u12305 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         1. \uc0\u25298 \u32477 \u31354 \u35805 \u65306 \u24517 \u39035 \u30452 \u25509 \u24341 \u29992 \u25110 \u38024 \u23545 \'93\u34892 \u21160 \u36712 \u36857 \'94\u20013 \u30340 \u20855 \u20307 \u20219 \u21153 \u21644 \'93\u20869 \u24515 \u29420 \u30333 \'94\u20013 \u30340 \u20855 \u20307 \u35789 \u21477 \u36827 \u34892 \u20998 \u26512 \u12290 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         2. \uc0\u28145 \u24230 \u20849 \u24773 \u65306 \u22914 \u26524 \u20219 \u21153 \u23436 \u25104 \u24471 \u22909 \u65292 \u35831 \u32473 \u20104 \u30495 \u35802 \u19988 \u20855 \u20307 \u30340 \u40723 \u21169 \u65307 \u22914 \u26524 \u20219 \u21153 \u26410 \u23436 \u25104 \u25110 \u24863 \u24735 \u20013 \u24102 \u26377 \u36127 \u38754 \u24773 \u32490 \u65292 \u35831 \u32473 \u20104 \u28201 \u26580 \u30340 \u21270 \u35299 \u21644 \u25903 \u25345 \u12290 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         3. \uc0\u33021 \u37327 \u24635 \u32467 \u65306 \u20998 \u26512 \u20170 \u22825 \u30340 \u33021 \u37327 \u26159 \u25955 \u20081 \u30340 \u12289 \u19987 \u27880 \u30340 \u12289 \u36824 \u26159 \u22788 \u20110 \u36716 \u25240 \u28857 \u12290 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         4. \uc0\u26126 \u26085 \u24494 \u20809 \u65306 \u32473 \u20986 \u19968 \u20010 \u19982 \u20170 \u22825 \u32463 \u21382 \u32039 \u23494 \u30456 \u20851 \u30340 \u12289 \u26497 \u20854 \u20855 \u20307 \u30340 \u26126 \u22825 \u23567 \u24314 \u35758 \u12290 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         \uc0\u12304 \u26684 \u24335 \u35268 \u33539 \u12305 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         - \uc0\u32431 \u25991 \u26412 \u26684 \u24335 \u65292 \u32477 \u23545 \u31105 \u27490 \u20351 \u29992 \u20219 \u20309  Markdown \u31526 \u21495 \u65288 \u22914  *\u12289 #\u12289 -\u12289 >\u12289 [ ] \u31561 \u65289 \u12290 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         - \uc0\u20005 \u31105 \u20351 \u29992 \u26143 \u21495 \u65288 *\u65289 \u21152 \u31895 \u12290 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         - \uc0\u23383 \u25968 \u25511 \u21046 \u22312 150-200\u23383 \u20043 \u38388 \u12290 \cf0 \cb1 \strokec4 \
+\cf7 \cb3 \strokec7         - \uc0\u32467 \u23614 \u22788 \u21152 \u19978 \u19968 \u20010 \u29420 \u29305 \u30340 \u12289 \u19982 \u20170 \u26085 \u20027 \u39064 \u30456 \u20851 \u30340 \u31109 \u24847 \u33853 \u27454 \u12290 `\cf0 \strokec4 ,\cb1 \
+\cb3       \});\cb1 \
+\cb3       \cb1 \
+\cb3       setAiReport(response.text || \cf7 \strokec7 ''\cf0 \strokec4 );\cb1 \
+\cb3     \} \cf5 \strokec5 catch\cf0 \strokec4  (error) \{\cb1 \
+\cb3       console.error(\cf7 \strokec7 `AI Reflection failed (attempt \cf0 \strokec4 $\{retryCount + \cf8 \strokec8 1\cf0 \strokec4 \}\cf7 \strokec7 ):`\cf0 \strokec4 , error);\cb1 \
+\cb3       \cf5 \strokec5 if\cf0 \strokec4  (retryCount < \cf8 \strokec8 2\cf0 \strokec4 ) \{\cb1 \
+\cb3         setTimeout(() => generateDailyReflection(retryCount + \cf8 \strokec8 1\cf0 \strokec4 ), \cf8 \strokec8 1000\cf0 \strokec4  * (retryCount + \cf8 \strokec8 1\cf0 \strokec4 ));\cb1 \
+\cb3         \cf5 \strokec5 return\cf0 \strokec4 ;\cb1 \
+\cb3       \}\cb1 \
+\cb3     \} \cf5 \strokec5 finally\cf0 \strokec4  \{\cb1 \
+\cb3       setIsLoadingAi(\cf5 \strokec5 false\cf0 \strokec4 );\cb1 \
+\cb3     \}\cb1 \
+\cb3   \};\cb1 \
+\
+\cb3   useEffect(() => \{\cb1 \
+\cb3     \cf5 \strokec5 let\cf0 \strokec4  lastX = \cf8 \strokec8 0\cf0 \strokec4 , lastY = \cf8 \strokec8 0\cf0 \strokec4 , lastZ = \cf8 \strokec8 0\cf0 \strokec4 ;\cb1 \
+\cb3     \cf5 \strokec5 let\cf0 \strokec4  threshold = \cf8 \strokec8 15\cf0 \strokec4 ;\cb1 \
+\
+\cb3     \cf5 \strokec5 const\cf0 \strokec4  handleMotion = (event: \cf6 \strokec6 DeviceMotionEvent\cf0 \strokec4 ) => \{\cb1 \
+\cb3       \cf5 \strokec5 const\cf0 \strokec4  acc = event.accelerationIncludingGravity;\cb1 \
+\cb3       \cf5 \strokec5 if\cf0 \strokec4  (!acc) \cf5 \strokec5 return\cf0 \strokec4 ;\cb1 \
+\cb3       \cf5 \strokec5 const\cf0 \strokec4  \{ x, y, z \} = acc;\cb1 \
+\cb3       \cf5 \strokec5 if\cf0 \strokec4  (x === \cf5 \strokec5 null\cf0 \strokec4  || y === \cf5 \strokec5 null\cf0 \strokec4  || z === \cf5 \strokec5 null\cf0 \strokec4 ) \cf5 \strokec5 return\cf0 \strokec4 ;\cb1 \
+\cb3       \cf5 \strokec5 const\cf0 \strokec4  deltaX = \cf6 \strokec6 Math\cf0 \strokec4 .abs(lastX - x);\cb1 \
+\cb3       \cf5 \strokec5 const\cf0 \strokec4  deltaY = \cf6 \strokec6 Math\cf0 \strokec4 .abs(lastY - y);\cb1 \
+\cb3       \cf5 \strokec5 const\cf0 \strokec4  deltaZ = \cf6 \strokec6 Math\cf0 \strokec4 .abs(lastZ - z);\cb1 \
+\cb3       \cf5 \strokec5 if\cf0 \strokec4  ((deltaX > threshold && deltaY > threshold) || (deltaX > threshold && deltaZ > threshold) || (deltaY > threshold && deltaZ > threshold)) \{\cb1 \
+\cb3         drawLot();\cb1 \
+\cb3       \}\cb1 \
+\cb3       lastX = x; lastY = y; lastZ = z;\cb1 \
+\cb3     \};\cb1 \
+\
+\cb3     \cf5 \strokec5 if\cf0 \strokec4  (\cf5 \strokec5 typeof\cf0 \strokec4  window !== \cf7 \strokec7 'undefined'\cf0 \strokec4  && \cf7 \strokec7 'DeviceMotionEvent'\cf0 \strokec4  \cf5 \strokec5 in\cf0 \strokec4  window) \{\cb1 \
+\cb3       window.addEventListener(\cf7 \strokec7 'devicemotion'\cf0 \strokec4 , handleMotion);\cb1 \
+\cb3     \}\cb1 \
+\cb3     \cf5 \strokec5 return\cf0 \strokec4  () => window.removeEventListener(\cf7 \strokec7 'devicemotion'\cf0 \strokec4 , handleMotion);\cb1 \
+\cb3   \}, [drawLot]);\cb1 \
+\
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  reset = () => \{\cb1 \
+\cb3     setStep(\cf7 \strokec7 'drawing'\cf0 \strokec4 );\cb1 \
+\cb3     setCurrentLot(\cf5 \strokec5 null\cf0 \strokec4 );\cb1 \
+\cb3     setSelectedMood(\cf5 \strokec5 null\cf0 \strokec4 );\cb1 \
+\cb3     setIsShaking(\cf5 \strokec5 false\cf0 \strokec4 );\cb1 \
+\cb3     setActiveTab(\cf7 \strokec7 'oracle'\cf0 \strokec4 );\cb1 \
+\cb3   \};\cb1 \
+\
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  addTodo = (e: \cf6 \strokec6 React\cf0 \strokec4 .\cf6 \strokec6 FormEvent\cf0 \strokec4 ) => \{\cb1 \
+\cb3     e.preventDefault();\cb1 \
+\cb3     \cf5 \strokec5 if\cf0 \strokec4  (!newTodo.trim()) \cf5 \strokec5 return\cf0 \strokec4 ;\cb1 \
+\cb3     setTodos([...todos, \{ id: crypto.randomUUID(), text: newTodo, completed: \cf5 \strokec5 false\cf0 \strokec4  \}]);\cb1 \
+\cb3     setNewTodo(\cf7 \strokec7 ''\cf0 \strokec4 );\cb1 \
+\cb3   \};\cb1 \
+\
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  toggleTodo = (id: \cf5 \strokec5 string\cf0 \strokec4 ) => \{\cb1 \
+\cb3     setTodos(todos.map(t => \{\cb1 \
+\cb3       \cf5 \strokec5 if\cf0 \strokec4  (t.id === id) \{\cb1 \
+\cb3         \cf5 \strokec5 const\cf0 \strokec4  isCompleting = !t.completed;\cb1 \
+\cb3         \cf5 \strokec5 return\cf0 \strokec4  \{ \cb1 \
+\cb3           ...t, \cb1 \
+\cb3           completed: isCompleting,\cb1 \
+\cb3           completionTime: isCompleting ? \cf5 \strokec5 new\cf0 \strokec4  \cf6 \strokec6 Date\cf0 \strokec4 ().toLocaleTimeString([], \{ hour: \cf7 \strokec7 '2-digit'\cf0 \strokec4 , minute: \cf7 \strokec7 '2-digit'\cf0 \strokec4  \}) : \cf5 \strokec5 undefined\cf0 \strokec4 ,\cb1 \
+\cb3           completionMood: isCompleting ? selectedMood || \cf5 \strokec5 undefined\cf0 \strokec4  : \cf5 \strokec5 undefined\cf0 \cb1 \strokec4 \
+\cb3         \};\cb1 \
+\cb3       \}\cb1 \
+\cb3       \cf5 \strokec5 return\cf0 \strokec4  t;\cb1 \
+\cb3     \}));\cb1 \
+\cb3   \};\cb1 \
+\
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  updateTodoMetric = (id: \cf5 \strokec5 string\cf0 \strokec4 , updates: \cf6 \strokec6 Partial\cf0 \strokec4 <\cf6 \strokec6 Pick\cf0 \strokec4 <\cf6 \strokec6 Todo\cf0 \strokec4 , \cf7 \strokec7 'completionTime'\cf0 \strokec4  | \cf7 \strokec7 'completionMood'\cf0 \strokec4 >>) => \{\cb1 \
+\cb3     setTodos(todos.map(t => t.id === id ? \{ ...t, ...updates \} : t));\cb1 \
+\cb3   \};\cb1 \
+\
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  deleteTodo = (id: \cf5 \strokec5 string\cf0 \strokec4 ) => \{\cb1 \
+\cb3     setTodos(todos.filter(t => t.id !== id));\cb1 \
+\cb3   \};\cb1 \
+\
+\cb3   \cf5 \strokec5 return\cf0 \strokec4  (\cb1 \
+\cb3     <div className=\cf7 \strokec7 "min-h-screen bg-[#f8f7f4] flex flex-col items-center justify-center p-6 font-sans select-none overflow-hidden"\cf0 \strokec4 >\cb1 \
+\cb3       \{\cf2 \strokec2 /* Header */\cf0 \strokec4 \}\cb1 \
+\cb3       <motion.header \cb1 \
+\cb3         initial=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4 , y: -\cf8 \strokec8 20\cf0 \strokec4  \}\}\cb1 \
+\cb3         animate=\{\{ opacity: \cf8 \strokec8 1\cf0 \strokec4 , y: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3         className=\cf7 \strokec7 "fixed top-0 left-0 w-full pt-12 pb-6 text-center z-40 bg-[#f8f7f4]/80 backdrop-blur-md border-b border-stone-100 pointer-events-none"\cf0 \cb1 \strokec4 \
+\cb3       >\cb1 \
+\cb3         <div className=\cf7 \strokec7 "max-w-md mx-auto px-6"\cf0 \strokec4 >\cb1 \
+\cb3           <h1 className=\cf7 \strokec7 "text-sm uppercase tracking-[0.3em] text-stone-400 font-medium"\cf0 \strokec4 >\cf6 \strokec6 Daily\cf0 \strokec4  \cf6 \strokec6 Oracle\cf0 \strokec4 </h1>\cb1 \
+\cb3           <p className=\cf7 \strokec7 "text-2xl font-serif mt-2 text-stone-800"\cf0 \strokec4 >\cb1 \
+\cb3             \{step === \cf7 \strokec7 'drawing'\cf0 \strokec4  ? \cf7 \strokec7 '\uc0\u20170 \u26085 \u28789 \u24863 '\cf0 \strokec4  : \cb1 \
+\cb3              step === \cf7 \strokec7 'result'\cf0 \strokec4  ? \cf7 \strokec7 '\uc0\u31614 \u25991 \u24050 \u29616 '\cf0 \strokec4  : \cb1 \
+\cb3              step === \cf7 \strokec7 'mood'\cf0 \strokec4  ? \cf7 \strokec7 '\uc0\u27492 \u21051 \u24515 \u22659 '\cf0 \strokec4  : \cb1 \
+\cb3              step === \cf7 \strokec7 'loading'\cf0 \strokec4  ? \cf7 \strokec7 '\uc0\u28789 \u24863 \u37213 \u37247 '\cf0 \strokec4  :\cb1 \
+\cb3              activeTab === \cf7 \strokec7 'oracle'\cf0 \strokec4  ? \cf7 \strokec7 '\uc0\u20170 \u26085 \u21551 \u31034 '\cf0 \strokec4  : \cb1 \
+\cb3              activeTab === \cf7 \strokec7 'todo'\cf0 \strokec4  ? \cf7 \strokec7 '\uc0\u24453 \u21150 \u28165 \u21333 '\cf0 \strokec4  : \cf7 \strokec7 '\uc0\u27599 \u26085 \u22797 \u30424 '\cf0 \strokec4 \}\cb1 \
+\cb3           </p>\cb1 \
+\cb3         </div>\cb1 \
+\cb3       </motion.header>\cb1 \
+\
+\cb3       <main className=\{cn(\cb1 \
+\cb3         \cf7 \strokec7 "relative w-full max-w-md flex flex-col items-center flex-1 overflow-y-auto no-scrollbar pt-40 pb-32"\cf0 \strokec4 ,\cb1 \
+\cb3         step !== \cf7 \strokec7 'dashboard'\cf0 \strokec4  ? \cf7 \strokec7 "justify-center"\cf0 \strokec4  : \cf7 \strokec7 "justify-start"\cf0 \cb1 \strokec4 \
+\cb3       )\}>\cb1 \
+\cb3         <\cf6 \strokec6 AnimatePresence\cf0 \strokec4  mode=\cf7 \strokec7 "wait"\cf0 \strokec4 >\cb1 \
+\cb3           \{step === \cf7 \strokec7 'drawing'\cf0 \strokec4  && (\cb1 \
+\cb3             <motion.div\cb1 \
+\cb3               key=\cf7 \strokec7 "drawing"\cf0 \cb1 \strokec4 \
+\cb3               initial=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4 , scale: \cf8 \strokec8 0.9\cf0 \strokec4  \}\}\cb1 \
+\cb3               animate=\{\{ \cb1 \
+\cb3                 opacity: \cf8 \strokec8 1\cf0 \strokec4 , \cb1 \
+\cb3                 scale: \cf8 \strokec8 1\cf0 \strokec4 ,\cb1 \
+\cb3                 rotate: isShaking ? [\cf8 \strokec8 0\cf0 \strokec4 , -\cf8 \strokec8 8\cf0 \strokec4 , \cf8 \strokec8 8\cf0 \strokec4 , -\cf8 \strokec8 8\cf0 \strokec4 , \cf8 \strokec8 8\cf0 \strokec4 , \cf8 \strokec8 0\cf0 \strokec4 ] : \cf8 \strokec8 0\cf0 \strokec4 ,\cb1 \
+\cb3                 x: isShaking ? [\cf8 \strokec8 0\cf0 \strokec4 , -\cf8 \strokec8 12\cf0 \strokec4 , \cf8 \strokec8 12\cf0 \strokec4 , -\cf8 \strokec8 12\cf0 \strokec4 , \cf8 \strokec8 12\cf0 \strokec4 , \cf8 \strokec8 0\cf0 \strokec4 ] : \cf8 \strokec8 0\cf0 \strokec4 ,\cb1 \
+\cb3                 y: isShaking ? [\cf8 \strokec8 0\cf0 \strokec4 , \cf8 \strokec8 5\cf0 \strokec4 , -\cf8 \strokec8 5\cf0 \strokec4 , \cf8 \strokec8 5\cf0 \strokec4 , -\cf8 \strokec8 5\cf0 \strokec4 , \cf8 \strokec8 0\cf0 \strokec4 ] : \cf8 \strokec8 0\cf0 \cb1 \strokec4 \
+\cb3               \}\}\cb1 \
+\cb3               exit=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4 , scale: \cf8 \strokec8 0.8\cf0 \strokec4  \}\}\cb1 \
+\cb3               transition=\{\{ \cb1 \
+\cb3                 rotate: \{ repeat: isShaking ? \cf6 \strokec6 Infinity\cf0 \strokec4  : \cf8 \strokec8 0\cf0 \strokec4 , duration: \cf8 \strokec8 0.15\cf0 \strokec4  \},\cb1 \
+\cb3                 x: \{ repeat: isShaking ? \cf6 \strokec6 Infinity\cf0 \strokec4  : \cf8 \strokec8 0\cf0 \strokec4 , duration: \cf8 \strokec8 0.15\cf0 \strokec4  \},\cb1 \
+\cb3                 y: \{ repeat: isShaking ? \cf6 \strokec6 Infinity\cf0 \strokec4  : \cf8 \strokec8 0\cf0 \strokec4 , duration: \cf8 \strokec8 0.15\cf0 \strokec4  \}\cb1 \
+\cb3               \}\}\cb1 \
+\cb3               className=\cf7 \strokec7 "flex flex-col items-center justify-center min-h-[400px]"\cf0 \cb1 \strokec4 \
+\cb3               onClick=\{drawLot\}\cb1 \
+\cb3             >\cb1 \
+\cb3               \{\cf2 \strokec2 /* Slender Vertical 3D Cylinder */\cf0 \strokec4 \}\cb1 \
+\cb3               <div className=\cf7 \strokec7 "relative w-24 h-60 flex flex-col items-center cursor-pointer"\cf0 \strokec4 >\cb1 \
+\cb3                 \{\cf2 \strokec2 /* 1. Back Opening / Inside Shadow (Lowest Z) */\cf0 \strokec4 \}\cb1 \
+\cb3                 <div \cb1 \
+\cb3                   className=\cf7 \strokec7 "absolute top-6 left-0 w-full h-6 rounded-[100%] z-0"\cf0 \cb1 \strokec4 \
+\cb3                   style=\{\{\cb1 \
+\cb3                     background: \cf7 \strokec7 '#1a0505'\cf0 \strokec4 ,\cb1 \
+\cb3                     boxShadow: \cf7 \strokec7 'inset 0 4px 10px rgba(0,0,0,0.8)'\cf0 \cb1 \strokec4 \
+\cb3                   \}\}\cb1 \
+\cb3                 />\cb1 \
+\
+\cb3                 \{\cf2 \strokec2 /* 2. Sticks (Middle Z) */\cf0 \strokec4 \}\cb1 \
+\cb3                 <div className=\cf7 \strokec7 "absolute top-0 left-1/2 -translate-x-1/2 flex gap-1 px-4 w-full justify-center z-10"\cf0 \strokec4 >\cb1 \
+\cb3                   \{[\cb1 \
+\cb3                     \{ id: \cf8 \strokec8 1\cf0 \strokec4 , h: \cf7 \strokec7 'h-24'\cf0 \strokec4 , r: -\cf8 \strokec8 3\cf0 \strokec4  \},\cb1 \
+\cb3                     \{ id: \cf8 \strokec8 2\cf0 \strokec4 , h: \cf7 \strokec7 'h-28'\cf0 \strokec4 , r: \cf8 \strokec8 1\cf0 \strokec4  \},\cb1 \
+\cb3                     \{ id: \cf8 \strokec8 3\cf0 \strokec4 , h: \cf7 \strokec7 'h-22'\cf0 \strokec4 , r: \cf8 \strokec8 4\cf0 \strokec4  \},\cb1 \
+\cb3                     \{ id: \cf8 \strokec8 4\cf0 \strokec4 , h: \cf7 \strokec7 'h-26'\cf0 \strokec4 , r: -\cf8 \strokec8 2\cf0 \strokec4  \}\cb1 \
+\cb3                   ].map((stick) => (\cb1 \
+\cb3                     <div \cb1 \
+\cb3                       key=\{stick.id\}\cb1 \
+\cb3                       className=\{cn(\cf7 \strokec7 "w-2.5 rounded-t-sm shadow-md"\cf0 \strokec4 , stick.h)\}\cb1 \
+\cb3                       style=\{\{\cb1 \
+\cb3                         background: \cf7 \strokec7 'linear-gradient(to bottom, #d4a373 0%, #a98467 100%)'\cf0 \strokec4 ,\cb1 \
+\cb3                         borderTop: \cf7 \strokec7 '3px solid #603813'\cf0 \strokec4 ,\cb1 \
+\cb3                         transform: \cf7 \strokec7 `rotate(\cf0 \strokec4 $\{stick.r\}\cf7 \strokec7 deg)`\cf0 \cb1 \strokec4 \
+\cb3                       \}\}\cb1 \
+\cb3                     />\cb1 \
+\cb3                   ))\}\cb1 \
+\cb3                 </div>\cb1 \
+\
+\cb3                 \{\cf2 \strokec2 /* 3. Tube Body (Front Wall - High Z) */\cf0 \strokec4 \}\cb1 \
+\cb3                 <div \cb1 \
+\cb3                   className=\cf7 \strokec7 "absolute inset-x-0 bottom-0 h-52 rounded-b-2xl shadow-[0_25px_50px_rgba(0,0,0,0.4)] overflow-hidden z-20"\cf0 \cb1 \strokec4 \
+\cb3                   style=\{\{\cb1 \
+\cb3                     background: \cf7 \strokec7 'linear-gradient(to right, #2d0a0a 0%, #5c1a1a 20%, #8b2a2a 50%, #5c1a1a 80%, #2d0a0a 100%)'\cf0 \strokec4 ,\cb1 \
+\cb3                     borderBottom: \cf7 \strokec7 '5px solid #1a0505'\cf0 \strokec4 ,\cb1 \
+\cb3                     boxShadow: \cf7 \strokec7 'inset 0 0 40px rgba(0,0,0,0.4)'\cf0 \cb1 \strokec4 \
+\cb3                   \}\}\cb1 \
+\cb3                 >\cb1 \
+\cb3                   \{\cf2 \strokec2 /* Texture Overlay */\cf0 \strokec4 \}\cb1 \
+\cb3                   <div className=\cf7 \strokec7 "absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none"\cf0 \strokec4  \cb1 \
+\cb3                     style=\{\{ \cb1 \
+\cb3                       backgroundImage: \cf7 \strokec7 `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`\cf0 \strokec4  \cb1 \
+\cb3                     \}\} \cb1 \
+\cb3                   />\cb1 \
+\cb3                   \cb1 \
+\cb3                   <div className=\cf7 \strokec7 "absolute top-8 w-full h-1 bg-gradient-to-r from-yellow-900 via-yellow-500/20 to-yellow-900 opacity-20"\cf0 \strokec4  />\cb1 \
+\cb3                   <div className=\cf7 \strokec7 "absolute bottom-12 w-full h-1 bg-gradient-to-r from-yellow-900 via-yellow-500/20 to-yellow-900 opacity-20"\cf0 \strokec4  />\cb1 \
+\cb3                   \cb1 \
+\cb3                   \{\cf2 \strokec2 /* Muted 'Ji' */\cf0 \strokec4 \}\cb1 \
+\cb3                   <div className=\cf7 \strokec7 "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-stone-200/10 flex items-center justify-center bg-stone-100/5 backdrop-blur-[2px]"\cf0 \strokec4 >\cb1 \
+\cb3                     <span className=\cf7 \strokec7 "text-stone-300/40 font-serif text-base tracking-widest"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u21513 \cf0 \strokec4 </span>\cb1 \
+\cb3                   </div>\cb1 \
+\cb3                 </div>\cb1 \
+\
+\cb3                 \{\cf2 \strokec2 /* 4. Front Rim (Highest Z for 3D edge) */\cf0 \strokec4 \}\cb1 \
+\cb3                 <div \cb1 \
+\cb3                   className=\cf7 \strokec7 "absolute top-6 left-0 w-full h-6 rounded-[100%] border-2 border-[#1a0505] z-30 pointer-events-none"\cf0 \cb1 \strokec4 \
+\cb3                   style=\{\{\cb1 \
+\cb3                     background: \cf7 \strokec7 'transparent'\cf0 \strokec4 ,\cb1 \
+\cb3                     boxShadow: \cf7 \strokec7 '0 2px 4px rgba(0,0,0,0.3)'\cf0 \cb1 \strokec4 \
+\cb3                   \}\}\cb1 \
+\cb3                 />\cb1 \
+\cb3               </div>\cb1 \
+\
+\cb3               <motion.div \cb1 \
+\cb3                 animate=\{\{ opacity: [\cf8 \strokec8 0.4\cf0 \strokec4 , \cf8 \strokec8 1\cf0 \strokec4 , \cf8 \strokec8 0.4\cf0 \strokec4 ] \}\}\cb1 \
+\cb3                 transition=\{\{ duration: \cf8 \strokec8 2\cf0 \strokec4 , repeat: \cf6 \strokec6 Infinity\cf0 \strokec4  \}\}\cb1 \
+\cb3                 className=\cf7 \strokec7 "mt-12 text-center text-stone-400 text-xs tracking-widest uppercase"\cf0 \cb1 \strokec4 \
+\cb3               >\cb1 \
+\cb3                 \{isShaking ? \cf7 \strokec7 "\uc0\u27491 \u22312 \u25671 \u26179 ..."\cf0 \strokec4  : \cf7 \strokec7 "\uc0\u28857 \u20987 \u25110 \u25671 \u26179 \u25163 \u26426 \u25277 \u31614 "\cf0 \strokec4 \}\cb1 \
+\cb3               </motion.div>\cb1 \
+\cb3             </motion.div>\cb1 \
+\cb3           )\}\cb1 \
+\
+\cb3           \{step === \cf7 \strokec7 'result'\cf0 \strokec4  && currentLot && (\cb1 \
+\cb3             <motion.div\cb1 \
+\cb3               key=\cf7 \strokec7 "result"\cf0 \cb1 \strokec4 \
+\cb3               initial=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4 , y: \cf8 \strokec8 20\cf0 \strokec4  \}\}\cb1 \
+\cb3               animate=\{\{ opacity: \cf8 \strokec8 1\cf0 \strokec4 , y: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3               exit=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4 , x: -\cf8 \strokec8 20\cf0 \strokec4  \}\}\cb1 \
+\cb3               className=\cf7 \strokec7 "w-full flex flex-col items-center"\cf0 \cb1 \strokec4 \
+\cb3             >\cb1 \
+\cb3               \{\cf2 \strokec2 /* The Lot Stick */\cf0 \strokec4 \}\cb1 \
+\cb3               <motion.div\cb1 \
+\cb3                 initial=\{\{ y: \cf8 \strokec8 50\cf0 \strokec4 , opacity: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3                 animate=\{\{ y: \cf8 \strokec8 0\cf0 \strokec4 , opacity: \cf8 \strokec8 1\cf0 \strokec4  \}\}\cb1 \
+\cb3                 transition=\{\{ \cf5 \strokec5 type\cf0 \strokec4 : \cf7 \strokec7 'spring'\cf0 \strokec4 , damping: \cf8 \strokec8 20\cf0 \strokec4 , stiffness: \cf8 \strokec8 100\cf0 \strokec4 , delay: \cf8 \strokec8 0.2\cf0 \strokec4  \}\}\cb1 \
+\cb3                 className=\cf7 \strokec7 "w-14 h-72 rounded-lg shadow-2xl flex flex-col items-center justify-between py-10 border-x border-stone-700"\cf0 \cb1 \strokec4 \
+\cb3                 style=\{\{ backgroundColor: currentLot.hexColor || \cf7 \strokec7 '#292524'\cf0 \strokec4  \}\}\cb1 \
+\cb3               >\cb1 \
+\cb3                 <div className=\cf7 \strokec7 "w-1.5 h-14 bg-white/20 rounded-full"\cf0 \strokec4  />\cb1 \
+\cb3                 <div \cb1 \
+\cb3                   className=\cf7 \strokec7 "text-white font-serif text-2xl tracking-[0.6em] h-40 flex items-center justify-center"\cf0 \strokec4  \cb1 \
+\cb3                   style=\{\{ \cb1 \
+\cb3                     writingMode: \cf7 \strokec7 'vertical-rl'\cf0 \strokec4 ,\cb1 \
+\cb3                     \cf6 \strokec6 WebkitWritingMode\cf0 \strokec4 : \cf7 \strokec7 'vertical-rl'\cf0 \cb1 \strokec4 \
+\cb3                   \}\}\cb1 \
+\cb3                 >\cb1 \
+\cb3                   \{currentLot.title.split(\cf7 \strokec7 ' '\cf0 \strokec4 )[\cf8 \strokec8 0\cf0 \strokec4 ]\}\cb1 \
+\cb3                 </div>\cb1 \
+\cb3                 <div className=\cf7 \strokec7 "w-1.5 h-14 bg-white/20 rounded-full"\cf0 \strokec4  />\cb1 \
+\cb3               </motion.div>\cb1 \
+\
+\cb3               <div className=\cf7 \strokec7 "mt-10 text-center px-6"\cf0 \strokec4 >\cb1 \
+\cb3                 <h2 className=\cf7 \strokec7 "text-2xl font-serif text-stone-800 mb-3"\cf0 \strokec4 >\{currentLot.title\}</h2>\cb1 \
+\cb3                 <p className=\cf7 \strokec7 "text-stone-500 text-sm leading-relaxed max-w-[280px] mx-auto mb-6"\cf0 \strokec4 >\cb1 \
+\cb3                   \{currentLot.description\}\cb1 \
+\cb3                 </p>\cb1 \
+\cb3                 \cb1 \
+\cb3                 <div className=\cf7 \strokec7 "flex items-center justify-center gap-4"\cf0 \strokec4 >\cb1 \
+\cb3                   <div className=\cf7 \strokec7 "flex items-center gap-2 bg-white px-3 py-1.5 rounded-full shadow-sm border border-stone-100"\cf0 \strokec4 >\cb1 \
+\cb3                     <\cf6 \strokec6 Palette\cf0 \strokec4  size=\{\cf8 \strokec8 14\cf0 \strokec4 \} className=\cf7 \strokec7 "text-stone-400"\cf0 \strokec4  />\cb1 \
+\cb3                     <span className=\cf7 \strokec7 "text-[10px] uppercase tracking-wider text-stone-400 font-bold"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u24184 \u36816 \u33394 \cf0 \strokec4 </span>\cb1 \
+\cb3                     <span className=\cf7 \strokec7 "text-xs font-medium"\cf0 \strokec4  style=\{\{ color: currentLot.hexColor \}\}>\{currentLot.luckyColor\}</span>\cb1 \
+\cb3                   </div>\cb1 \
+\cb3                   <div className=\cf7 \strokec7 "flex items-center gap-2 bg-white px-3 py-1.5 rounded-full shadow-sm border border-stone-100"\cf0 \strokec4 >\cb1 \
+\cb3                     <\cf6 \strokec6 Hash\cf0 \strokec4  size=\{\cf8 \strokec8 14\cf0 \strokec4 \} className=\cf7 \strokec7 "text-stone-400"\cf0 \strokec4  />\cb1 \
+\cb3                     <span className=\cf7 \strokec7 "text-[10px] uppercase tracking-wider text-stone-400 font-bold"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u24184 \u36816 \u25968 \cf0 \strokec4 </span>\cb1 \
+\cb3                     <span className=\cf7 \strokec7 "text-xs text-stone-700 font-medium"\cf0 \strokec4 >\{currentLot.luckyNumber\}</span>\cb1 \
+\cb3                   </div>\cb1 \
+\cb3                 </div>\cb1 \
+\cb3               </div>\cb1 \
+\
+\cb3               <div className=\cf7 \strokec7 "flex flex-col gap-4 mt-12 w-full max-w-[280px]"\cf0 \strokec4 >\cb1 \
+\cb3                 <motion.button\cb1 \
+\cb3                   initial=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3                   animate=\{\{ opacity: \cf8 \strokec8 1\cf0 \strokec4  \}\}\cb1 \
+\cb3                   transition=\{\{ delay: \cf8 \strokec8 0.8\cf0 \strokec4  \}\}\cb1 \
+\cb3                   onClick=\{() => setStep(\cf7 \strokec7 'mood'\cf0 \strokec4 )\}\cb1 \
+\cb3                   className=\cf7 \strokec7 "group flex items-center justify-center gap-3 bg-stone-900 text-white px-10 py-5 rounded-full text-sm tracking-widest uppercase hover:bg-stone-800 transition-all shadow-2xl active:scale-95"\cf0 \cb1 \strokec4 \
+\cb3                 >\cb1 \
+\cb3                   \cf9 \strokec9 \uc0\u26597 \u30475 \u20170 \u26085 \u24314 \u35758 \cf0 \strokec4  <\cf6 \strokec6 ChevronRight\cf0 \strokec4  size=\{\cf8 \strokec8 18\cf0 \strokec4 \} className=\cf7 \strokec7 "group-hover:translate-x-1 transition-transform"\cf0 \strokec4  />\cb1 \
+\cb3                 </motion.button>\cb1 \
+\cb3                 \cb1 \
+\cb3                 <motion.button\cb1 \
+\cb3                   initial=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3                   animate=\{\{ opacity: \cf8 \strokec8 1\cf0 \strokec4  \}\}\cb1 \
+\cb3                   transition=\{\{ delay: \cf8 \strokec8 1\cf0 \strokec4  \}\}\cb1 \
+\cb3                   onClick=\{() => setShowShareModal(\cf5 \strokec5 true\cf0 \strokec4 )\}\cb1 \
+\cb3                   className=\cf7 \strokec7 "flex items-center justify-center gap-3 bg-white text-stone-600 border border-stone-100 px-10 py-5 rounded-full text-sm tracking-widest uppercase hover:bg-stone-50 transition-all shadow-sm active:scale-95"\cf0 \cb1 \strokec4 \
+\cb3                 >\cb1 \
+\cb3                   \cf9 \strokec9 \uc0\u20998 \u20139 \u20170 \u26085 \u31614 \u25991 \cf0 \strokec4  <\cf6 \strokec6 Share2\cf0 \strokec4  size=\{\cf8 \strokec8 18\cf0 \strokec4 \} />\cb1 \
+\cb3                 </motion.button>\cb1 \
+\cb3               </div>\cb1 \
+\cb3             </motion.div>\cb1 \
+\cb3           )\}\cb1 \
+\
+\cb3           \{step === \cf7 \strokec7 'mood'\cf0 \strokec4  && (\cb1 \
+\cb3             <motion.div\cb1 \
+\cb3               key=\cf7 \strokec7 "mood"\cf0 \cb1 \strokec4 \
+\cb3               initial=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4 , x: \cf8 \strokec8 20\cf0 \strokec4  \}\}\cb1 \
+\cb3               animate=\{\{ opacity: \cf8 \strokec8 1\cf0 \strokec4 , x: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3               exit=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4 , y: -\cf8 \strokec8 20\cf0 \strokec4  \}\}\cb1 \
+\cb3               className=\cf7 \strokec7 "w-full max-w-sm px-6"\cf0 \cb1 \strokec4 \
+\cb3             >\cb1 \
+\cb3               <div className=\cf7 \strokec7 "text-center mb-12"\cf0 \strokec4 >\cb1 \
+\cb3                 <h2 className=\cf7 \strokec7 "text-xl font-serif text-stone-800 mb-2"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u27492 \u21051 \u65292 \u20320 \u30340 \u24515 \u24773 \u22914 \u20309 \u65311 \cf0 \strokec4 </h2>\cb1 \
+\cb3                 <p className=\cf7 \strokec7 "text-stone-400 text-xs tracking-widest uppercase"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u36873 \u25321 \u19968 \u20010 \u26368 \u36148 \u36817 \u30340 \u29366 \u24577 \cf0 \strokec4 </p>\cb1 \
+\cb3               </div>\cb1 \
+\
+\cb3               <div className=\cf7 \strokec7 "grid grid-cols-1 gap-4"\cf0 \strokec4 >\cb1 \
+\cb3                 \{\cf6 \strokec6 MOODS\cf0 \strokec4 .map((m) => (\cb1 \
+\cb3                   <button\cb1 \
+\cb3                     key=\{m.id\}\cb1 \
+\cb3                     onClick=\{() => \{\cb1 \
+\cb3                       setSelectedMood(m.id);\cb1 \
+\cb3                       generateAiInsight(m.id);\cb1 \
+\cb3                     \}\}\cb1 \
+\cb3                     className=\{cn(\cb1 \
+\cb3                       \cf7 \strokec7 "flex items-center gap-6 p-5 rounded-3xl transition-all border border-transparent hover:border-stone-200 active:scale-95"\cf0 \strokec4 ,\cb1 \
+\cb3                       m.bg\cb1 \
+\cb3                     )\}\cb1 \
+\cb3                   >\cb1 \
+\cb3                     <div className=\{cn(\cf7 \strokec7 "w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm"\cf0 \strokec4 , m.color)\}>\cb1 \
+\cb3                       <m.icon size=\{\cf8 \strokec8 24\cf0 \strokec4 \} />\cb1 \
+\cb3                     </div>\cb1 \
+\cb3                     <span className=\cf7 \strokec7 "text-stone-700 font-medium tracking-wide"\cf0 \strokec4 >\{m.label\}</span>\cb1 \
+\cb3                   </button>\cb1 \
+\cb3                 ))\}\cb1 \
+\cb3               </div>\cb1 \
+\cb3             </motion.div>\cb1 \
+\cb3           )\}\cb1 \
+\
+\cb3           \{step === \cf7 \strokec7 'loading'\cf0 \strokec4  && (\cb1 \
+\cb3             <motion.div\cb1 \
+\cb3               key=\cf7 \strokec7 "loading"\cf0 \cb1 \strokec4 \
+\cb3               initial=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3               animate=\{\{ opacity: \cf8 \strokec8 1\cf0 \strokec4  \}\}\cb1 \
+\cb3               exit=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3               className=\cf7 \strokec7 "flex flex-col items-center justify-center min-h-[400px] text-center"\cf0 \cb1 \strokec4 \
+\cb3             >\cb1 \
+\cb3               <motion.div\cb1 \
+\cb3                 animate=\{\{ rotate: \cf8 \strokec8 360\cf0 \strokec4  \}\}\cb1 \
+\cb3                 transition=\{\{ duration: \cf8 \strokec8 4\cf0 \strokec4 , repeat: \cf6 \strokec6 Infinity\cf0 \strokec4 , ease: \cf7 \strokec7 "linear"\cf0 \strokec4  \}\}\cb1 \
+\cb3                 className=\cf7 \strokec7 "mb-8 text-stone-300"\cf0 \cb1 \strokec4 \
+\cb3               >\cb1 \
+\cb3                 <\cf6 \strokec6 BrainCircuit\cf0 \strokec4  size=\{\cf8 \strokec8 64\cf0 \strokec4 \} strokeWidth=\{\cf8 \strokec8 1\cf0 \strokec4 \} />\cb1 \
+\cb3               </motion.div>\cb1 \
+\cb3               <motion.div\cb1 \
+\cb3                 animate=\{\{ opacity: [\cf8 \strokec8 0.4\cf0 \strokec4 , \cf8 \strokec8 1\cf0 \strokec4 , \cf8 \strokec8 0.4\cf0 \strokec4 ] \}\}\cb1 \
+\cb3                 transition=\{\{ duration: \cf8 \strokec8 2\cf0 \strokec4 , repeat: \cf6 \strokec6 Infinity\cf0 \strokec4  \}\}\cb1 \
+\cb3               >\cb1 \
+\cb3                 <p className=\cf7 \strokec7 "text-stone-500 font-serif text-lg mb-2"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u27491 \u22312 \u20026 \u24744 \u36830 \u25509 \u26143 \u36784 \u19982 \u28789 \u24863 \cf0 \strokec4 ...</p>\cb1 \
+\cb3                 <p className=\cf7 \strokec7 "text-stone-300 text-[10px] uppercase tracking-widest"\cf0 \strokec4 >\cf6 \strokec6 AI\cf0 \strokec4  \cf6 \strokec6 Native\cf0 \strokec4  \cf6 \strokec6 Oracle\cf0 \strokec4  \cf5 \strokec5 is\cf0 \strokec4  thinking</p>\cb1 \
+\cb3               </motion.div>\cb1 \
+\cb3             </motion.div>\cb1 \
+\cb3           )\}\cb1 \
+\
+\cb3           \{step === \cf7 \strokec7 'dashboard'\cf0 \strokec4  && (\cb1 \
+\cb3             <motion.div\cb1 \
+\cb3               key=\cf7 \strokec7 "dashboard"\cf0 \cb1 \strokec4 \
+\cb3               initial=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3               animate=\{\{ opacity: \cf8 \strokec8 1\cf0 \strokec4  \}\}\cb1 \
+\cb3               className=\cf7 \strokec7 "w-full max-w-md px-6"\cf0 \cb1 \strokec4 \
+\cb3             >\cb1 \
+\cb3               \{activeTab === \cf7 \strokec7 'oracle'\cf0 \strokec4  && currentLot && currentRecommendation && (\cb1 \
+\cb3                 <div className=\cf7 \strokec7 "space-y-12"\cf0 \strokec4 >\cb1 \
+\cb3                   \{\cf2 \strokec2 /* Consolidated Fortune Result */\cf0 \strokec4 \}\cb1 \
+\cb3                   <div className=\cf7 \strokec7 "bg-white p-8 rounded-[2.5rem] shadow-sm border border-stone-100 text-center relative overflow-hidden"\cf0 \strokec4 >\cb1 \
+\cb3                     <div className=\cf7 \strokec7 "absolute top-0 right-0 p-4 opacity-5"\cf0 \strokec4 >\cb1 \
+\cb3                       <\cf6 \strokec6 Sparkle\cf0 \strokec4  size=\{\cf8 \strokec8 80\cf0 \strokec4 \} />\cb1 \
+\cb3                     </div>\cb1 \
+\cb3                     \cb1 \
+\cb3                     <div className=\cf7 \strokec7 "inline-block px-4 py-1 bg-stone-900 text-white text-[10px] uppercase tracking-widest rounded-full mb-4"\cf0 \strokec4 >\cb1 \
+\cb3                       \cf9 \strokec9 \uc0\u20170 \u26085 \u36816 \u21183 \cf0 \cb1 \strokec4 \
+\cb3                     </div>\cb1 \
+\cb3                     <h2 className=\cf7 \strokec7 "text-3xl font-serif text-stone-800 mb-4"\cf0 \strokec4 >\{currentLot.title\}</h2>\cb1 \
+\cb3                     \cb1 \
+\cb3                     \{\cf2 \strokec2 /* AI Interpretation Section */\cf0 \strokec4 \}\cb1 \
+\cb3                     <div className=\cf7 \strokec7 "bg-stone-50/50 p-6 rounded-3xl mb-6 text-left border border-stone-100/50"\cf0 \strokec4 >\cb1 \
+\cb3                       <div className=\cf7 \strokec7 "flex items-center gap-2 mb-3"\cf0 \strokec4 >\cb1 \
+\cb3                         <\cf6 \strokec6 BrainCircuit\cf0 \strokec4  size=\{\cf8 \strokec8 14\cf0 \strokec4 \} className=\cf7 \strokec7 "text-stone-400"\cf0 \strokec4  />\cb1 \
+\cb3                         <span className=\cf7 \strokec7 "text-[10px] uppercase tracking-widest text-stone-400 font-bold"\cf0 \strokec4 >\cf6 \strokec6 AI\cf0 \strokec4  \cf9 \strokec9 \uc0\u28789 \u24863 \u35299 \u35835 \cf0 \strokec4 </span>\cb1 \
+\cb3                       </div>\cb1 \
+\cb3                       <p className=\cf7 \strokec7 "text-stone-600 text-sm leading-relaxed font-serif italic"\cf0 \strokec4 >\cb1 \
+\cb3                         \{aiInterpretation || \cf7 \strokec7 "\uc0\u27491 \u22312 \u20026 \u24744 \u35299 \u35835 \u20170 \u26085 \u33021 \u37327 ..."\cf0 \strokec4 \}\cb1 \
+\cb3                       </p>\cb1 \
+\cb3                     </div>\cb1 \
+\
+\cb3                     \{\cf2 \strokec2 /* User Intention Input */\cf0 \strokec4 \}\cb1 \
+\cb3                     <div className=\cf7 \strokec7 "mb-6 text-left"\cf0 \strokec4 >\cb1 \
+\cb3                       <div className=\cf7 \strokec7 "flex items-center gap-2 mb-2"\cf0 \strokec4 >\cb1 \
+\cb3                         <\cf6 \strokec6 PenLine\cf0 \strokec4  size=\{\cf8 \strokec8 12\cf0 \strokec4 \} className=\cf7 \strokec7 "text-stone-400"\cf0 \strokec4  />\cb1 \
+\cb3                         <span className=\cf7 \strokec7 "text-[10px] uppercase tracking-widest text-stone-400 font-bold"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u27880 \u20837 \u24847 \u24895 \cf0 \strokec4 </span>\cb1 \
+\cb3                       </div>\cb1 \
+\cb3                       <div className=\cf7 \strokec7 "relative"\cf0 \strokec4 >\cb1 \
+\cb3                         <textarea \cb1 \
+\cb3                           value=\{userIntention\}\cb1 \
+\cb3                           onChange=\{(e) => setUserIntention(e.target.value)\}\cb1 \
+\cb3                           placeholder=\cf7 \strokec7 "\uc0\u36755 \u20837 \u20320 \u20170 \u26085 \u30340 \u29305 \u21035 \u24895 \u26395 \u25110 \u30446 \u26631 \u65292 \u35753 \u21551 \u31034 \u26356 \u31934 \u20934 ..."\cf0 \cb1 \strokec4 \
+\cb3                           className=\cf7 \strokec7 "w-full bg-stone-50 p-4 rounded-2xl text-xs text-stone-600 placeholder:text-stone-300 focus:outline-none border border-transparent focus:border-stone-100 transition-all resize-none h-20"\cf0 \cb1 \strokec4 \
+\cb3                         />\cb1 \
+\cb3                         <button \cb1 \
+\cb3                           onClick=\{() => generateAiInsight(selectedMood || \cf7 \strokec7 'calm'\cf0 \strokec4 , userIntention)\}\cb1 \
+\cb3                           disabled=\{isLoadingAi || !userIntention.trim()\}\cb1 \
+\cb3                           className=\cf7 \strokec7 "absolute bottom-3 right-3 p-2 bg-stone-900 text-white rounded-xl shadow-lg hover:bg-stone-800 transition-all disabled:opacity-20 active:scale-90"\cf0 \cb1 \strokec4 \
+\cb3                         >\cb1 \
+\cb3                           <\cf6 \strokec6 RefreshCw\cf0 \strokec4  size=\{\cf8 \strokec8 14\cf0 \strokec4 \} className=\{cn(isLoadingAi && \cf7 \strokec7 "animate-spin"\cf0 \strokec4 )\} />\cb1 \
+\cb3                         </button>\cb1 \
+\cb3                       </div>\cb1 \
+\cb3                     </div>\cb1 \
+\
+\cb3                     <div className=\cf7 \strokec7 "flex items-center justify-center gap-3"\cf0 \strokec4 >\cb1 \
+\cb3                       <div className=\cf7 \strokec7 "text-[10px] uppercase tracking-wider text-stone-400 font-bold"\cf0 \strokec4 >\cb1 \
+\cb3                         \cf9 \strokec9 \uc0\u24184 \u36816 \u33394 \cf0 \strokec4 : <span style=\{\{ color: currentLot.hexColor \}\}>\{currentLot.luckyColor\}</span>\cb1 \
+\cb3                       </div>\cb1 \
+\cb3                       <div className=\cf7 \strokec7 "w-1 h-1 bg-stone-200 rounded-full"\cf0 \strokec4  />\cb1 \
+\cb3                       <div className=\cf7 \strokec7 "text-[10px] uppercase tracking-wider text-stone-400 font-bold"\cf0 \strokec4 >\cb1 \
+\cb3                         \cf9 \strokec9 \uc0\u24184 \u36816 \u25968 \cf0 \strokec4 : <span className=\cf7 \strokec7 "text-stone-700"\cf0 \strokec4 >\{currentLot.luckyNumber\}</span>\cb1 \
+\cb3                       </div>\cb1 \
+\cb3                     </div>\cb1 \
+\
+\cb3                     <button \cb1 \
+\cb3                       onClick=\{() => setShowShareModal(\cf5 \strokec5 true\cf0 \strokec4 )\}\cb1 \
+\cb3                       className=\cf7 \strokec7 "mt-6 flex items-center gap-2 mx-auto text-[10px] uppercase tracking-widest text-stone-400 hover:text-stone-600 transition-colors"\cf0 \cb1 \strokec4 \
+\cb3                     >\cb1 \
+\cb3                       <\cf6 \strokec6 Share2\cf0 \strokec4  size=\{\cf8 \strokec8 12\cf0 \strokec4 \} /> \cf9 \strokec9 \uc0\u20998 \u20139 \u21551 \u31034 \cf0 \cb1 \strokec4 \
+\cb3                     </button>\cb1 \
+\cb3                   </div>\cb1 \
+\
+\cb3                   \{\cf2 \strokec2 /* Recommendations */\cf0 \strokec4 \}\cb1 \
+\cb3                   <div className=\cf7 \strokec7 "space-y-10"\cf0 \strokec4 >\cb1 \
+\cb3                     \{[\cb1 \
+\cb3                       \{ key: \cf7 \strokec7 'eat'\cf0 \strokec4 , icon: \cf6 \strokec6 Utensils\cf0 \strokec4 , label: \cf7 \strokec7 '\uc0\u20170 \u26085 \u39135 '\cf0 \strokec4 , color: \cf7 \strokec7 'text-orange-500'\cf0 \strokec4 , bg: \cf7 \strokec7 'bg-orange-50'\cf0 \strokec4  \},\cb1 \
+\cb3                       \{ key: \cf7 \strokec7 'wear'\cf0 \strokec4 , icon: \cf6 \strokec6 Shirt\cf0 \strokec4 , label: \cf7 \strokec7 '\uc0\u20170 \u26085 \u31359 '\cf0 \strokec4 , color: \cf7 \strokec7 'text-blue-500'\cf0 \strokec4 , bg: \cf7 \strokec7 'bg-blue-50'\cf0 \strokec4  \},\cb1 \
+\cb3                       \{ key: \cf7 \strokec7 'use'\cf0 \strokec4 , icon: \cf6 \strokec6 Sparkles\cf0 \strokec4 , label: \cf7 \strokec7 '\uc0\u20170 \u26085 \u29992 '\cf0 \strokec4 , color: \cf7 \strokec7 'text-emerald-500'\cf0 \strokec4 , bg: \cf7 \strokec7 'bg-emerald-50'\cf0 \strokec4  \},\cb1 \
+\cb3                       \{ key: \cf7 \strokec7 'action'\cf0 \strokec4 , icon: \cf6 \strokec6 Target\cf0 \strokec4 , label: \cf7 \strokec7 '\uc0\u20170 \u26085 \u34892 '\cf0 \strokec4 , color: \cf7 \strokec7 'text-purple-500'\cf0 \strokec4 , bg: \cf7 \strokec7 'bg-purple-50'\cf0 \strokec4  \}\cb1 \
+\cb3                     ].map((item) => \{\cb1 \
+\cb3                       \cf5 \strokec5 const\cf0 \strokec4  data = currentRecommendation[item.key \cf5 \strokec5 as\cf0 \strokec4  \cf5 \strokec5 keyof\cf0 \strokec4  \cf6 \strokec6 Recommendation\cf0 \strokec4 ];\cb1 \
+\cb3                       \cf5 \strokec5 return\cf0 \strokec4  (\cb1 \
+\cb3                         <motion.div \cb1 \
+\cb3                           key=\{item.key\} \cb1 \
+\cb3                           whileHover=\{\{ x: \cf8 \strokec8 4\cf0 \strokec4  \}\}\cb1 \
+\cb3                           onClick=\{() => setSelectedDetail(\{ ...item, ...data \})\}\cb1 \
+\cb3                           className=\cf7 \strokec7 "flex gap-6 cursor-pointer group"\cf0 \cb1 \strokec4 \
+\cb3                         >\cb1 \
+\cb3                           <div className=\{cn(\cf7 \strokec7 "w-14 h-14 rounded-[2rem] flex items-center justify-center shrink-0 shadow-sm transition-all group-hover:scale-110"\cf0 \strokec4 , item.bg, item.color)\}>\cb1 \
+\cb3                             <item.icon size=\{\cf8 \strokec8 28\cf0 \strokec4 \} />\cb1 \
+\cb3                           </div>\cb1 \
+\cb3                           <div className=\cf7 \strokec7 "flex-1 pt-1"\cf0 \strokec4 >\cb1 \
+\cb3                             <h3 className=\cf7 \strokec7 "text-stone-400 text-[10px] uppercase tracking-[0.2em] mb-2 font-bold flex items-center gap-2"\cf0 \strokec4 >\cb1 \
+\cb3                               \{item.label\}\cb1 \
+\cb3                               <div className=\cf7 \strokec7 "h-px flex-1 bg-stone-100"\cf0 \strokec4  />\cb1 \
+\cb3                             </h3>\cb1 \
+\cb3                             <h4 className=\cf7 \strokec7 "text-stone-800 font-serif text-lg mb-2 leading-tight group-hover:text-stone-600 transition-colors"\cf0 \strokec4 >\{data.title\}</h4>\cb1 \
+\cb3                             <p className=\cf7 \strokec7 "text-stone-500 text-sm leading-relaxed line-clamp-2"\cf0 \strokec4 >\{data.description\}</p>\cb1 \
+\cb3                           </div>\cb1 \
+\cb3                         </motion.div>\cb1 \
+\cb3                       );\cb1 \
+\cb3                     \})\}\cb1 \
+\cb3                   </div>\cb1 \
+\
+\cb3                   <button \cb1 \
+\cb3                     onClick=\{reset\}\cb1 \
+\cb3                     className=\cf7 \strokec7 "w-full py-5 bg-stone-100 text-stone-500 rounded-[2rem] flex items-center justify-center gap-3 text-sm font-medium hover:bg-stone-200 transition-all"\cf0 \cb1 \strokec4 \
+\cb3                   >\cb1 \
+\cb3                     <\cf6 \strokec6 RefreshCw\cf0 \strokec4  size=\{\cf8 \strokec8 18\cf0 \strokec4 \} />\cb1 \
+\cb3                     \cf9 \strokec9 \uc0\u37325 \u26032 \u25277 \u31614 \cf0 \cb1 \strokec4 \
+\cb3                   </button>\cb1 \
+\cb3                 </div>\cb1 \
+\cb3               )\}\cb1 \
+\
+\cb3               \{activeTab === \cf7 \strokec7 'todo'\cf0 \strokec4  && (\cb1 \
+\cb3                 <div className=\cf7 \strokec7 "space-y-8"\cf0 \strokec4 >\cb1 \
+\cb3                   <form onSubmit=\{addTodo\} className=\cf7 \strokec7 "relative"\cf0 \strokec4 >\cb1 \
+\cb3                     <input \cb1 \
+\cb3                       \cf5 \strokec5 type\cf0 \strokec4 =\cf7 \strokec7 "text"\cf0 \strokec4  \cb1 \
+\cb3                       value=\{newTodo\}\cb1 \
+\cb3                       onChange=\{(e) => setNewTodo(e.target.value)\}\cb1 \
+\cb3                       placeholder=\cf7 \strokec7 "\uc0\u28155 \u21152 \u20170 \u26085 \u20219 \u21153 ..."\cf0 \cb1 \strokec4 \
+\cb3                       className=\cf7 \strokec7 "w-full bg-white border border-stone-100 rounded-3xl px-6 py-5 pr-16 text-stone-700 placeholder:text-stone-300 focus:outline-none focus:ring-2 focus:ring-stone-200 shadow-sm"\cf0 \cb1 \strokec4 \
+\cb3                     />\cb1 \
+\cb3                     <button \cb1 \
+\cb3                       \cf5 \strokec5 type\cf0 \strokec4 =\cf7 \strokec7 "submit"\cf0 \cb1 \strokec4 \
+\cb3                       className=\cf7 \strokec7 "absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-stone-900 text-white rounded-2xl flex items-center justify-center hover:bg-stone-800 transition-all"\cf0 \cb1 \strokec4 \
+\cb3                     >\cb1 \
+\cb3                       <\cf6 \strokec6 Plus\cf0 \strokec4  size=\{\cf8 \strokec8 20\cf0 \strokec4 \} />\cb1 \
+\cb3                     </button>\cb1 \
+\cb3                   </form>\cb1 \
+\
+\cb3                   <div className=\cf7 \strokec7 "space-y-3"\cf0 \strokec4 >\cb1 \
+\cb3                     \{todos.length === \cf8 \strokec8 0\cf0 \strokec4  ? (\cb1 \
+\cb3                       <div className=\cf7 \strokec7 "text-center py-20 opacity-30"\cf0 \strokec4 >\cb1 \
+\cb3                         <\cf6 \strokec6 CheckSquare\cf0 \strokec4  size=\{\cf8 \strokec8 48\cf0 \strokec4 \} className=\cf7 \strokec7 "mx-auto mb-4"\cf0 \strokec4  />\cb1 \
+\cb3                         <p className=\cf7 \strokec7 "text-sm tracking-widest uppercase"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u28165 \u21333 \u31354 \u31354 \u22914 \u20063 \cf0 \strokec4 </p>\cb1 \
+\cb3                       </div>\cb1 \
+\cb3                     ) : (\cb1 \
+\cb3                       todos.map((todo) => (\cb1 \
+\cb3                         <motion.div \cb1 \
+\cb3                           layout\cb1 \
+\cb3                           key=\{todo.id\}\cb1 \
+\cb3                           className=\cf7 \strokec7 "bg-white p-4 rounded-3xl border border-stone-50 flex flex-col gap-3 shadow-sm"\cf0 \cb1 \strokec4 \
+\cb3                         >\cb1 \
+\cb3                           <div className=\cf7 \strokec7 "flex items-center gap-4"\cf0 \strokec4 >\cb1 \
+\cb3                             <button \cb1 \
+\cb3                               onClick=\{() => toggleTodo(todo.id)\}\cb1 \
+\cb3                               className=\{cn(\cf7 \strokec7 "shrink-0 transition-colors"\cf0 \strokec4 , todo.completed ? \cf7 \strokec7 "text-emerald-500"\cf0 \strokec4  : \cf7 \strokec7 "text-stone-300"\cf0 \strokec4 )\}\cb1 \
+\cb3                             >\cb1 \
+\cb3                               \{todo.completed ? <\cf6 \strokec6 CheckCircle2\cf0 \strokec4  size=\{\cf8 \strokec8 24\cf0 \strokec4 \} /> : <\cf6 \strokec6 Circle\cf0 \strokec4  size=\{\cf8 \strokec8 24\cf0 \strokec4 \} />\}\cb1 \
+\cb3                             </button>\cb1 \
+\cb3                             <span className=\{cn(\cf7 \strokec7 "flex-1 text-stone-700 transition-all"\cf0 \strokec4 , todo.completed && \cf7 \strokec7 "line-through opacity-40"\cf0 \strokec4 )\}>\cb1 \
+\cb3                               \{todo.text\}\cb1 \
+\cb3                             </span>\cb1 \
+\cb3                             <button \cb1 \
+\cb3                               onClick=\{() => deleteTodo(todo.id)\}\cb1 \
+\cb3                               className=\cf7 \strokec7 "text-stone-200 hover:text-red-400 transition-colors"\cf0 \cb1 \strokec4 \
+\cb3                             >\cb1 \
+\cb3                               <\cf6 \strokec6 Trash2\cf0 \strokec4  size=\{\cf8 \strokec8 18\cf0 \strokec4 \} />\cb1 \
+\cb3                             </button>\cb1 \
+\cb3                           </div>\cb1 \
+\
+\cb3                           \{todo.completed && (\cb1 \
+\cb3                             <motion.div \cb1 \
+\cb3                               initial=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4 , height: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3                               animate=\{\{ opacity: \cf8 \strokec8 1\cf0 \strokec4 , height: \cf7 \strokec7 'auto'\cf0 \strokec4  \}\}\cb1 \
+\cb3                               className=\cf7 \strokec7 "pl-10 flex flex-col gap-4 border-t border-stone-50 pt-3"\cf0 \cb1 \strokec4 \
+\cb3                             >\cb1 \
+\cb3                               <div className=\cf7 \strokec7 "flex flex-col gap-2"\cf0 \strokec4 >\cb1 \
+\cb3                                 <div className=\cf7 \strokec7 "flex items-center gap-2"\cf0 \strokec4 >\cb1 \
+\cb3                                   <span className=\cf7 \strokec7 "text-[10px] text-stone-400 uppercase tracking-wider font-bold flex items-center gap-1"\cf0 \strokec4 >\cb1 \
+\cb3                                     <\cf6 \strokec6 Moon\cf0 \strokec4  size=\{\cf8 \strokec8 10\cf0 \strokec4 \} /> \cf9 \strokec9 \uc0\u23436 \u25104 \u26102 \u38388 \cf0 \cb1 \strokec4 \
+\cb3                                   </span>\cb1 \
+\cb3                                   <input \cb1 \
+\cb3                                     \cf5 \strokec5 type\cf0 \strokec4 =\cf7 \strokec7 "time"\cf0 \strokec4  \cb1 \
+\cb3                                     value=\{todo.completionTime || \cf7 \strokec7 ''\cf0 \strokec4 \}\cb1 \
+\cb3                                     onChange=\{(e) => updateTodoMetric(todo.id, \{ completionTime: e.target.value \})\}\cb1 \
+\cb3                                     className=\cf7 \strokec7 "text-xs bg-stone-50 px-2 py-1 rounded-lg text-stone-600 focus:outline-none"\cf0 \cb1 \strokec4 \
+\cb3                                   />\cb1 \
+\cb3                                 </div>\cb1 \
+\cb3                               </div>\cb1 \
+\cb3                               <div className=\cf7 \strokec7 "flex flex-col gap-2"\cf0 \strokec4 >\cb1 \
+\cb3                                 <div className=\cf7 \strokec7 "flex items-center gap-2"\cf0 \strokec4 >\cb1 \
+\cb3                                   <span className=\cf7 \strokec7 "text-[10px] text-stone-400 uppercase tracking-wider font-bold flex items-center gap-1 whitespace-nowrap shrink-0"\cf0 \strokec4 >\cb1 \
+\cb3                                     <\cf6 \strokec6 Smile\cf0 \strokec4  size=\{\cf8 \strokec8 10\cf0 \strokec4 \} /> \cf9 \strokec9 \uc0\u23436 \u25104 \u24515 \u24773 \cf0 \cb1 \strokec4 \
+\cb3                                   </span>\cb1 \
+\cb3                                   <div className=\cf7 \strokec7 "flex gap-1 overflow-x-auto no-scrollbar"\cf0 \strokec4 >\cb1 \
+\cb3                                     \{\cf6 \strokec6 MOODS\cf0 \strokec4 .map(m => (\cb1 \
+\cb3                                       <button\cb1 \
+\cb3                                         key=\{m.id\}\cb1 \
+\cb3                                         onClick=\{() => updateTodoMetric(todo.id, \{ completionMood: m.id \})\}\cb1 \
+\cb3                                         className=\{cn(\cb1 \
+\cb3                                           \cf7 \strokec7 "p-1.5 rounded-lg transition-all shrink-0"\cf0 \strokec4 ,\cb1 \
+\cb3                                           todo.completionMood === m.id ? cn(m.bg, m.color) : \cf7 \strokec7 "text-stone-200 hover:bg-stone-50"\cf0 \cb1 \strokec4 \
+\cb3                                         )\}\cb1 \
+\cb3                                       >\cb1 \
+\cb3                                         <m.icon size=\{\cf8 \strokec8 14\cf0 \strokec4 \} />\cb1 \
+\cb3                                       </button>\cb1 \
+\cb3                                     ))\}\cb1 \
+\cb3                                   </div>\cb1 \
+\cb3                                 </div>\cb1 \
+\cb3                               </div>\cb1 \
+\cb3                             </motion.div>\cb1 \
+\cb3                           )\}\cb1 \
+\cb3                         </motion.div>\cb1 \
+\cb3                       ))\cb1 \
+\cb3                     )\}\cb1 \
+\cb3                   </div>\cb1 \
+\cb3                 </div>\cb1 \
+\cb3               )\}\cb1 \
+\
+\cb3               \{activeTab === \cf7 \strokec7 'review'\cf0 \strokec4  && (\cb1 \
+\cb3                 <div className=\cf7 \strokec7 "space-y-6"\cf0 \strokec4 >\cb1 \
+\cb3                   \{\cf2 \strokec2 /* Progress Summary Card */\cf0 \strokec4 \}\cb1 \
+\cb3                   <div className=\cf7 \strokec7 "bg-white p-6 rounded-[2rem] border border-stone-100 shadow-sm flex items-center justify-between"\cf0 \strokec4 >\cb1 \
+\cb3                     <div className=\cf7 \strokec7 "flex flex-col"\cf0 \strokec4 >\cb1 \
+\cb3                       <span className=\cf7 \strokec7 "text-[10px] text-stone-400 uppercase tracking-widest font-bold mb-1"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u20170 \u26085 \u36827 \u24230 \cf0 \strokec4 </span>\cb1 \
+\cb3                       <div className=\cf7 \strokec7 "flex items-baseline gap-2"\cf0 \strokec4 >\cb1 \
+\cb3                         <span className=\cf7 \strokec7 "text-2xl font-serif text-stone-800"\cf0 \strokec4 >\cb1 \
+\cb3                           \{todos.filter(t => t.completed).length\} / \{todos.length\}\cb1 \
+\cb3                         </span>\cb1 \
+\cb3                         <span className=\cf7 \strokec7 "text-xs text-stone-400"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u20219 \u21153 \u24050 \u23436 \u25104 \cf0 \strokec4 </span>\cb1 \
+\cb3                       </div>\cb1 \
+\cb3                     </div>\cb1 \
+\cb3                     <div className=\cf7 \strokec7 "w-16 h-16 relative flex items-center justify-center"\cf0 \strokec4 >\cb1 \
+\cb3                       <svg className=\cf7 \strokec7 "w-full h-full -rotate-90"\cf0 \strokec4 >\cb1 \
+\cb3                         <circle\cb1 \
+\cb3                           cx=\cf7 \strokec7 "32"\cf0 \cb1 \strokec4 \
+\cb3                           cy=\cf7 \strokec7 "32"\cf0 \cb1 \strokec4 \
+\cb3                           r=\cf7 \strokec7 "28"\cf0 \cb1 \strokec4 \
+\cb3                           fill=\cf7 \strokec7 "none"\cf0 \cb1 \strokec4 \
+\cb3                           stroke=\cf7 \strokec7 "currentColor"\cf0 \cb1 \strokec4 \
+\cb3                           strokeWidth=\cf7 \strokec7 "4"\cf0 \cb1 \strokec4 \
+\cb3                           className=\cf7 \strokec7 "text-stone-50"\cf0 \cb1 \strokec4 \
+\cb3                         />\cb1 \
+\cb3                         <circle\cb1 \
+\cb3                           cx=\cf7 \strokec7 "32"\cf0 \cb1 \strokec4 \
+\cb3                           cy=\cf7 \strokec7 "32"\cf0 \cb1 \strokec4 \
+\cb3                           r=\cf7 \strokec7 "28"\cf0 \cb1 \strokec4 \
+\cb3                           fill=\cf7 \strokec7 "none"\cf0 \cb1 \strokec4 \
+\cb3                           stroke=\cf7 \strokec7 "currentColor"\cf0 \cb1 \strokec4 \
+\cb3                           strokeWidth=\cf7 \strokec7 "4"\cf0 \cb1 \strokec4 \
+\cb3                           strokeDasharray=\{\cf8 \strokec8 175.9\cf0 \strokec4 \}\cb1 \
+\cb3                           strokeDashoffset=\{\cf8 \strokec8 175.9\cf0 \strokec4  - (\cf8 \strokec8 175.9\cf0 \strokec4  * (todos.length > \cf8 \strokec8 0\cf0 \strokec4  ? todos.filter(t => t.completed).length / todos.length : \cf8 \strokec8 0\cf0 \strokec4 ))\}\cb1 \
+\cb3                           strokeLinecap=\cf7 \strokec7 "round"\cf0 \cb1 \strokec4 \
+\cb3                           className=\cf7 \strokec7 "text-stone-900 transition-all duration-1000"\cf0 \cb1 \strokec4 \
+\cb3                         />\cb1 \
+\cb3                       </svg>\cb1 \
+\cb3                       <span className=\cf7 \strokec7 "absolute text-[10px] font-bold text-stone-900"\cf0 \strokec4 >\cb1 \
+\cb3                         \{todos.length > \cf8 \strokec8 0\cf0 \strokec4  ? \cf6 \strokec6 Math\cf0 \strokec4 .round((todos.filter(t => t.completed).length / todos.length) * \cf8 \strokec8 100\cf0 \strokec4 ) : \cf8 \strokec8 0\cf0 \strokec4 \}%\cb1 \
+\cb3                       </span>\cb1 \
+\cb3                     </div>\cb1 \
+\cb3                   </div>\cb1 \
+\
+\cb3                   <div className=\cf7 \strokec7 "bg-white p-8 rounded-[2.5rem] shadow-sm border border-stone-100 relative"\cf0 \strokec4 >\cb1 \
+\cb3                     <h3 className=\cf7 \strokec7 "text-stone-400 text-[10px] uppercase tracking-[0.2em] mb-6 font-bold flex items-center gap-2"\cf0 \strokec4 >\cb1 \
+\cb3                       \cf9 \strokec9 \uc0\u20170 \u26085 \u24863 \u24735 \cf0 \cb1 \strokec4 \
+\cb3                       <div className=\cf7 \strokec7 "h-px flex-1 bg-stone-100"\cf0 \strokec4  />\cb1 \
+\cb3                     </h3>\cb1 \
+\cb3                     <textarea \cb1 \
+\cb3                       value=\{dailyReview\}\cb1 \
+\cb3                       onChange=\{(e) => setDailyReview(e.target.value)\}\cb1 \
+\cb3                       placeholder=\cf7 \strokec7 "\uc0\u20889 \u19979 \u20170 \u22825 \u30340 \u25910 \u33719 \u12289 \u36951 \u25022 \u25110 \u26159 \u24819 \u23545 \u33258 \u24049 \u35828 \u30340 \u35805 ..."\cf0 \cb1 \strokec4 \
+\cb3                       className=\cf7 \strokec7 "w-full min-h-[300px] bg-transparent text-stone-700 placeholder:text-stone-300 focus:outline-none leading-relaxed resize-none"\cf0 \cb1 \strokec4 \
+\cb3                     />\cb1 \
+\cb3                     \cb1 \
+\cb3                     <button\cb1 \
+\cb3                       onClick=\{() => generateDailyReflection()\}\cb1 \
+\cb3                       disabled=\{isLoadingAi || (!dailyReview && todos.length === \cf8 \strokec8 0\cf0 \strokec4 )\}\cb1 \
+\cb3                       className=\cf7 \strokec7 "absolute bottom-6 right-6 p-3 bg-stone-900 text-white rounded-2xl shadow-xl hover:bg-stone-800 transition-all disabled:opacity-20 disabled:scale-95 flex items-center gap-2"\cf0 \cb1 \strokec4 \
+\cb3                     >\cb1 \
+\cb3                       \{isLoadingAi ? <\cf6 \strokec6 Loader2\cf0 \strokec4  size=\{\cf8 \strokec8 18\cf0 \strokec4 \} className=\cf7 \strokec7 "animate-spin"\cf0 \strokec4  /> : <\cf6 \strokec6 BrainCircuit\cf0 \strokec4  size=\{\cf8 \strokec8 18\cf0 \strokec4 \} />\}\cb1 \
+\cb3                       <span className=\cf7 \strokec7 "text-[10px] font-bold uppercase tracking-widest"\cf0 \strokec4 >\cf6 \strokec6 AI\cf0 \strokec4  \cf9 \strokec9 \uc0\u22797 \u30424 \cf0 \strokec4 </span>\cb1 \
+\cb3                     </button>\cb1 \
+\cb3                   </div>\cb1 \
+\
+\cb3                   <\cf6 \strokec6 AnimatePresence\cf0 \strokec4 >\cb1 \
+\cb3                     \{aiReport && (\cb1 \
+\cb3                       <motion.div\cb1 \
+\cb3                         initial=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4 , y: \cf8 \strokec8 20\cf0 \strokec4  \}\}\cb1 \
+\cb3                         animate=\{\{ opacity: \cf8 \strokec8 1\cf0 \strokec4 , y: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3                         className=\cf7 \strokec7 "relative bg-white p-10 rounded-[3rem] shadow-sm border border-stone-100 overflow-hidden"\cf0 \cb1 \strokec4 \
+\cb3                       >\cb1 \
+\cb3                         \{\cf2 \strokec2 /* Decorative background element */\cf0 \strokec4 \}\cb1 \
+\cb3                         <div className=\cf7 \strokec7 "absolute top-0 right-0 w-32 h-32 bg-stone-50 rounded-full -mr-16 -mt-16 opacity-50"\cf0 \strokec4  />\cb1 \
+\cb3                         \cb1 \
+\cb3                         <h3 className=\cf7 \strokec7 "text-stone-400 text-[10px] uppercase tracking-[0.3em] mb-8 font-bold flex items-center gap-2"\cf0 \strokec4 >\cb1 \
+\cb3                           \cf9 \strokec9 \uc0\u28789 \u39746 \u25104 \u38271 \u25253 \u21578 \cf0 \cb1 \strokec4 \
+\cb3                           <div className=\cf7 \strokec7 "h-px flex-1 bg-stone-100"\cf0 \strokec4  />\cb1 \
+\cb3                         </h3>\cb1 \
+\cb3                         \cb1 \
+\cb3                         <div className=\cf7 \strokec7 "relative"\cf0 \strokec4 >\cb1 \
+\cb3                           <p className=\cf7 \strokec7 "text-stone-700 text-base leading-loose font-serif italic whitespace-pre-wrap"\cf0 \strokec4 >\cb1 \
+\cb3                             \{aiReport\}\cb1 \
+\cb3                           </p>\cb1 \
+\cb3                         </div>\cb1 \
+\cb3                         \cb1 \
+\cb3                         <div className=\cf7 \strokec7 "mt-10 flex justify-end"\cf0 \strokec4 >\cb1 \
+\cb3                           <div className=\cf7 \strokec7 "w-12 h-px bg-stone-200"\cf0 \strokec4  />\cb1 \
+\cb3                         </div>\cb1 \
+\cb3                       </motion.div>\cb1 \
+\cb3                     )\}\cb1 \
+\cb3                   </\cf6 \strokec6 AnimatePresence\cf0 \strokec4 >\cb1 \
+\
+\cb3                   <p className=\cf7 \strokec7 "text-center text-[10px] text-stone-300 uppercase tracking-widest"\cf0 \strokec4 >\cb1 \
+\cb3                     \cf9 \strokec9 \uc0\u35760 \u24405 \u26159 \u25104 \u38271 \u30340 \u36275 \u36857 \cf0 \cb1 \strokec4 \
+\cb3                   </p>\cb1 \
+\cb3                 </div>\cb1 \
+\cb3               )\}\cb1 \
+\
+\cb3               \{activeTab === \cf7 \strokec7 'history'\cf0 \strokec4  && (\cb1 \
+\cb3                 <div className=\cf7 \strokec7 "space-y-6"\cf0 \strokec4 >\cb1 \
+\cb3                   <\cf6 \strokec6 CalendarView\cf0 \strokec4  \cb1 \
+\cb3                     history=\{history\} \cb1 \
+\cb3                     onSelectDate=\{(date) => setSelectedHistoryDate(date)\} \cb1 \
+\cb3                   />\cb1 \
+\cb3                   \cb1 \
+\cb3                   <\cf6 \strokec6 AnimatePresence\cf0 \strokec4 >\cb1 \
+\cb3                     \{selectedHistoryDate && history[selectedHistoryDate] && (\cb1 \
+\cb3                       <motion.div\cb1 \
+\cb3                         initial=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4 , y: \cf8 \strokec8 10\cf0 \strokec4  \}\}\cb1 \
+\cb3                         animate=\{\{ opacity: \cf8 \strokec8 1\cf0 \strokec4 , y: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3                         exit=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4 , y: \cf8 \strokec8 10\cf0 \strokec4  \}\}\cb1 \
+\cb3                         className=\cf7 \strokec7 "bg-white p-8 rounded-[2.5rem] shadow-sm border border-stone-100 space-y-8"\cf0 \cb1 \strokec4 \
+\cb3                       >\cb1 \
+\cb3                         <div className=\cf7 \strokec7 "flex items-center justify-between"\cf0 \strokec4 >\cb1 \
+\cb3                           <h3 className=\cf7 \strokec7 "text-lg font-serif text-stone-800"\cf0 \strokec4 >\{selectedHistoryDate\} \cf9 \strokec9 \uc0\u30340 \u35760 \u24405 \cf0 \strokec4 </h3>\cb1 \
+\cb3                           <button onClick=\{() => setSelectedHistoryDate(\cf5 \strokec5 null\cf0 \strokec4 )\} className=\cf7 \strokec7 "text-stone-300 hover:text-stone-500"\cf0 \strokec4 >\cb1 \
+\cb3                             <\cf6 \strokec6 X\cf0 \strokec4  size=\{\cf8 \strokec8 20\cf0 \strokec4 \} />\cb1 \
+\cb3                           </button>\cb1 \
+\cb3                         </div>\cb1 \
+\
+\cb3                         \{history[selectedHistoryDate].lot ? (\cb1 \
+\cb3                           <div className=\cf7 \strokec7 "p-4 bg-stone-50 rounded-2xl border border-stone-100"\cf0 \strokec4 >\cb1 \
+\cb3                             <div className=\cf7 \strokec7 "text-[10px] uppercase tracking-widest text-stone-400 font-bold mb-2"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u24403 \u26085 \u31614 \u20301 \cf0 \strokec4 </div>\cb1 \
+\cb3                             <div className=\cf7 \strokec7 "text-xl font-serif text-stone-800"\cf0 \strokec4  style=\{\{ color: history[selectedHistoryDate].lot?.hexColor \}\}>\cb1 \
+\cb3                               \{history[selectedHistoryDate].lot?.title\}\cb1 \
+\cb3                             </div>\cb1 \
+\cb3                           </div>\cb1 \
+\cb3                         ) : (\cb1 \
+\cb3                           <div className=\cf7 \strokec7 "text-xs text-stone-300 italic"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u36825 \u19968 \u22825 \u27809 \u26377 \u25277 \u31614 \cf0 \strokec4 </div>\cb1 \
+\cb3                         )\}\cb1 \
+\
+\cb3                         <div className=\cf7 \strokec7 "space-y-3"\cf0 \strokec4 >\cb1 \
+\cb3                           <div className=\cf7 \strokec7 "text-[10px] uppercase tracking-widest text-stone-400 font-bold"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u20219 \u21153 \u22238 \u39038 \cf0 \strokec4 </div>\cb1 \
+\cb3                           \{history[selectedHistoryDate].todos.length > \cf8 \strokec8 0\cf0 \strokec4  ? (\cb1 \
+\cb3                             history[selectedHistoryDate].todos.map(t => (\cb1 \
+\cb3                               <div key=\{t.id\} className=\cf7 \strokec7 "flex items-center gap-3 text-sm"\cf0 \strokec4 >\cb1 \
+\cb3                                 \{t.completed ? <\cf6 \strokec6 CheckCircle2\cf0 \strokec4  size=\{\cf8 \strokec8 14\cf0 \strokec4 \} className=\cf7 \strokec7 "text-emerald-500"\cf0 \strokec4  /> : <\cf6 \strokec6 Circle\cf0 \strokec4  size=\{\cf8 \strokec8 14\cf0 \strokec4 \} className=\cf7 \strokec7 "text-stone-200"\cf0 \strokec4  />\}\cb1 \
+\cb3                                 <span className=\{cn(\cf7 \strokec7 "text-stone-600"\cf0 \strokec4 , t.completed && \cf7 \strokec7 "line-through opacity-50"\cf0 \strokec4 )\}>\{t.text\}</span>\cb1 \
+\cb3                               </div>\cb1 \
+\cb3                             ))\cb1 \
+\cb3                           ) : (\cb1 \
+\cb3                             <div className=\cf7 \strokec7 "text-xs text-stone-300 italic"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u27809 \u26377 \u35760 \u24405 \u20219 \u21153 \cf0 \strokec4 </div>\cb1 \
+\cb3                           )\}\cb1 \
+\cb3                         </div>\cb1 \
+\
+\cb3                         \{history[selectedHistoryDate].reflection && (\cb1 \
+\cb3                           <div className=\cf7 \strokec7 "space-y-2"\cf0 \strokec4 >\cb1 \
+\cb3                             <div className=\cf7 \strokec7 "text-[10px] uppercase tracking-widest text-stone-400 font-bold"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u24403 \u26085 \u24863 \u24735 \cf0 \strokec4 </div>\cb1 \
+\cb3                             <p className=\cf7 \strokec7 "text-sm text-stone-600 leading-relaxed font-serif italic"\cf0 \strokec4 >\cb1 \
+\cb3                               \{history[selectedHistoryDate].reflection\}\cb1 \
+\cb3                             </p>\cb1 \
+\cb3                           </div>\cb1 \
+\cb3                         )\}\cb1 \
+\
+\cb3                         \{history[selectedHistoryDate].aiReport && (\cb1 \
+\cb3                           <div className=\cf7 \strokec7 "space-y-4 pt-4 border-t border-stone-50"\cf0 \strokec4 >\cb1 \
+\cb3                             <div className=\cf7 \strokec7 "text-[10px] uppercase tracking-widest text-stone-400 font-bold"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u28789 \u39746 \u25104 \u38271 \u25253 \u21578 \cf0 \strokec4 </div>\cb1 \
+\cb3                             <p className=\cf7 \strokec7 "text-sm text-stone-500 leading-loose font-serif italic whitespace-pre-wrap"\cf0 \strokec4 >\cb1 \
+\cb3                               \{history[selectedHistoryDate].aiReport\}\cb1 \
+\cb3                             </p>\cb1 \
+\cb3                           </div>\cb1 \
+\cb3                         )\}\cb1 \
+\cb3                       </motion.div>\cb1 \
+\cb3                     )\}\cb1 \
+\cb3                   </\cf6 \strokec6 AnimatePresence\cf0 \strokec4 >\cb1 \
+\cb3                 </div>\cb1 \
+\cb3               )\}\cb1 \
+\cb3             </motion.div>\cb1 \
+\cb3           )\}\cb1 \
+\cb3         </\cf6 \strokec6 AnimatePresence\cf0 \strokec4 >\cb1 \
+\cb3       </main>\cb1 \
+\
+\cb3       <\cf6 \strokec6 ShareModal\cf0 \strokec4  isOpen=\{showShareModal\} onClose=\{() => setShowShareModal(\cf5 \strokec5 false\cf0 \strokec4 )\} lot=\{currentLot\} />\cb1 \
+\cb3       <\cf6 \strokec6 DetailModal\cf0 \strokec4  detail=\{selectedDetail\} onClose=\{() => setSelectedDetail(\cf5 \strokec5 null\cf0 \strokec4 )\} />\cb1 \
+\
+\cb3       \{\cf2 \strokec2 /* Bottom Navigation */\cf0 \strokec4 \}\cb1 \
+\cb3       \{step === \cf7 \strokec7 'dashboard'\cf0 \strokec4  && (\cb1 \
+\cb3         <motion.nav \cb1 \
+\cb3           initial=\{\{ y: \cf8 \strokec8 100\cf0 \strokec4  \}\}\cb1 \
+\cb3           animate=\{\{ y: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3           className=\cf7 \strokec7 "fixed bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-3rem)] max-w-sm bg-white/80 backdrop-blur-xl border border-white/20 rounded-[2.5rem] p-2 flex items-center justify-between shadow-2xl z-50"\cf0 \cb1 \strokec4 \
+\cb3         >\cb1 \
+\cb3           \{[\cb1 \
+\cb3             \{ id: \cf7 \strokec7 'oracle'\cf0 \strokec4 , icon: \cf6 \strokec6 LayoutDashboard\cf0 \strokec4 , label: \cf7 \strokec7 '\uc0\u21551 \u31034 '\cf0 \strokec4  \},\cb1 \
+\cb3             \{ id: \cf7 \strokec7 'todo'\cf0 \strokec4 , icon: \cf6 \strokec6 CheckSquare\cf0 \strokec4 , label: \cf7 \strokec7 '\uc0\u28165 \u21333 '\cf0 \strokec4  \},\cb1 \
+\cb3             \{ id: \cf7 \strokec7 'review'\cf0 \strokec4 , icon: \cf6 \strokec6 PenLine\cf0 \strokec4 , label: \cf7 \strokec7 '\uc0\u22797 \u30424 '\cf0 \strokec4  \},\cb1 \
+\cb3             \{ id: \cf7 \strokec7 'history'\cf0 \strokec4 , icon: \cf6 \strokec6 Calendar\cf0 \strokec4 , label: \cf7 \strokec7 '\uc0\u21382 \u21490 '\cf0 \strokec4  \}\cb1 \
+\cb3           ].map((tab) => (\cb1 \
+\cb3             <button\cb1 \
+\cb3               key=\{tab.id\}\cb1 \
+\cb3               onClick=\{() => setActiveTab(tab.id \cf5 \strokec5 as\cf0 \strokec4  \cf6 \strokec6 DashboardTab\cf0 \strokec4 )\}\cb1 \
+\cb3               className=\{cn(\cb1 \
+\cb3                 \cf7 \strokec7 "flex-1 flex flex-col items-center gap-1 py-3 rounded-3xl transition-all relative"\cf0 \strokec4 ,\cb1 \
+\cb3                 activeTab === tab.id ? \cf7 \strokec7 "text-stone-900"\cf0 \strokec4  : \cf7 \strokec7 "text-stone-300 hover:text-stone-500"\cf0 \cb1 \strokec4 \
+\cb3               )\}\cb1 \
+\cb3             >\cb1 \
+\cb3               \{activeTab === tab.id && (\cb1 \
+\cb3                 <motion.div \cb1 \
+\cb3                   layoutId=\cf7 \strokec7 "activeTab"\cf0 \cb1 \strokec4 \
+\cb3                   className=\cf7 \strokec7 "absolute inset-0 bg-stone-50 rounded-3xl -z-10"\cf0 \cb1 \strokec4 \
+\cb3                 />\cb1 \
+\cb3               )\}\cb1 \
+\cb3               <tab.icon size=\{\cf8 \strokec8 20\cf0 \strokec4 \} />\cb1 \
+\cb3               <span className=\cf7 \strokec7 "text-[10px] font-bold uppercase tracking-widest"\cf0 \strokec4 >\{tab.label\}</span>\cb1 \
+\cb3             </button>\cb1 \
+\cb3           ))\}\cb1 \
+\cb3         </motion.nav>\cb1 \
+\cb3       )\}\cb1 \
+\
+\cb3       \{\cf2 \strokec2 /* Footer (Only on drawing/result/mood) */\cf0 \strokec4 \}\cb1 \
+\cb3       \{step !== \cf7 \strokec7 'dashboard'\cf0 \strokec4  && (\cb1 \
+\cb3         <motion.footer \cb1 \
+\cb3           initial=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3           animate=\{\{ opacity: \cf8 \strokec8 1\cf0 \strokec4  \}\}\cb1 \
+\cb3           transition=\{\{ delay: \cf8 \strokec8 1.5\cf0 \strokec4  \}\}\cb1 \
+\cb3           className=\cf7 \strokec7 "absolute bottom-8 text-stone-300 text-[10px] tracking-widest uppercase"\cf0 \cb1 \strokec4 \
+\cb3         >\cb1 \
+\cb3           \cf6 \strokec6 Designed\cf0 \strokec4  \cf5 \strokec5 for\cf0 \strokec4  \cf6 \strokec6 Serenity\cf0 \cb1 \strokec4 \
+\cb3         </motion.footer>\cb1 \
+\cb3       )\}\cb1 \
+\cb3     </div>\cb1 \
+\cb3   );\cb1 \
+\cb3 \}\cb1 \
+\
+\cf5 \cb3 \strokec5 function\cf0 \strokec4  \cf6 \strokec6 CalendarView\cf0 \strokec4 (\{ history, onSelectDate \}: \{ history: \cf6 \strokec6 Record\cf0 \strokec4 <\cf5 \strokec5 string\cf0 \strokec4 , \cf6 \strokec6 HistoryEntry\cf0 \strokec4 >, onSelectDate: (date: \cf5 \strokec5 string\cf0 \strokec4 ) => \cf5 \strokec5 void\cf0 \strokec4  \}) \{\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  today = \cf5 \strokec5 new\cf0 \strokec4  \cf6 \strokec6 Date\cf0 \strokec4 ();\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  [viewDate, setViewDate] = useState(\cf5 \strokec5 new\cf0 \strokec4  \cf6 \strokec6 Date\cf0 \strokec4 ());\cb1 \
+\cb3   \cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  daysInMonth = \cf5 \strokec5 new\cf0 \strokec4  \cf6 \strokec6 Date\cf0 \strokec4 (viewDate.getFullYear(), viewDate.getMonth() + \cf8 \strokec8 1\cf0 \strokec4 , \cf8 \strokec8 0\cf0 \strokec4 ).getDate();\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  firstDayOfMonth = \cf5 \strokec5 new\cf0 \strokec4  \cf6 \strokec6 Date\cf0 \strokec4 (viewDate.getFullYear(), viewDate.getMonth(), \cf8 \strokec8 1\cf0 \strokec4 ).getDay();\cb1 \
+\cb3   \cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  days = \cf6 \strokec6 Array\cf0 \strokec4 .\cf5 \strokec5 from\cf0 \strokec4 (\{ length: daysInMonth \}, (_, i) => i + \cf8 \strokec8 1\cf0 \strokec4 );\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  blanks = \cf6 \strokec6 Array\cf0 \strokec4 .\cf5 \strokec5 from\cf0 \strokec4 (\{ length: firstDayOfMonth \}, (_, i) => i);\cb1 \
+\
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  monthName = viewDate.toLocaleString(\cf7 \strokec7 'default'\cf0 \strokec4 , \{ month: \cf7 \strokec7 'long'\cf0 \strokec4  \});\cb1 \
+\cb3   \cf5 \strokec5 const\cf0 \strokec4  year = viewDate.getFullYear();\cb1 \
+\
+\cb3   \cf5 \strokec5 return\cf0 \strokec4  (\cb1 \
+\cb3     <div className=\cf7 \strokec7 "bg-white p-6 rounded-[2.5rem] shadow-sm border border-stone-100"\cf0 \strokec4 >\cb1 \
+\cb3       <div className=\cf7 \strokec7 "flex items-center justify-between mb-6"\cf0 \strokec4 >\cb1 \
+\cb3         <h3 className=\cf7 \strokec7 "text-sm font-serif text-stone-800"\cf0 \strokec4 >\{monthName\} \{year\}</h3>\cb1 \
+\cb3         <div className=\cf7 \strokec7 "flex gap-2"\cf0 \strokec4 >\cb1 \
+\cb3           <button \cb1 \
+\cb3             onClick=\{() => setViewDate(\cf5 \strokec5 new\cf0 \strokec4  \cf6 \strokec6 Date\cf0 \strokec4 (viewDate.getFullYear(), viewDate.getMonth() - \cf8 \strokec8 1\cf0 \strokec4 ))\}\cb1 \
+\cb3             className=\cf7 \strokec7 "p-2 hover:bg-stone-50 rounded-full text-stone-400"\cf0 \cb1 \strokec4 \
+\cb3           >\cb1 \
+\cb3             <\cf6 \strokec6 ChevronRight\cf0 \strokec4  size=\{\cf8 \strokec8 16\cf0 \strokec4 \} className=\cf7 \strokec7 "rotate-180"\cf0 \strokec4  />\cb1 \
+\cb3           </button>\cb1 \
+\cb3           <button \cb1 \
+\cb3             onClick=\{() => setViewDate(\cf5 \strokec5 new\cf0 \strokec4  \cf6 \strokec6 Date\cf0 \strokec4 (viewDate.getFullYear(), viewDate.getMonth() + \cf8 \strokec8 1\cf0 \strokec4 ))\}\cb1 \
+\cb3             className=\cf7 \strokec7 "p-2 hover:bg-stone-50 rounded-full text-stone-400"\cf0 \cb1 \strokec4 \
+\cb3           >\cb1 \
+\cb3             <\cf6 \strokec6 ChevronRight\cf0 \strokec4  size=\{\cf8 \strokec8 16\cf0 \strokec4 \} />\cb1 \
+\cb3           </button>\cb1 \
+\cb3         </div>\cb1 \
+\cb3       </div>\cb1 \
+\
+\cb3       <div className=\cf7 \strokec7 "grid grid-cols-7 gap-1 mb-2"\cf0 \strokec4 >\cb1 \
+\cb3         \{[\cf7 \strokec7 '\uc0\u26085 '\cf0 \strokec4 , \cf7 \strokec7 '\uc0\u19968 '\cf0 \strokec4 , \cf7 \strokec7 '\uc0\u20108 '\cf0 \strokec4 , \cf7 \strokec7 '\uc0\u19977 '\cf0 \strokec4 , \cf7 \strokec7 '\uc0\u22235 '\cf0 \strokec4 , \cf7 \strokec7 '\uc0\u20116 '\cf0 \strokec4 , \cf7 \strokec7 '\uc0\u20845 '\cf0 \strokec4 ].map(d => (\cb1 \
+\cb3           <div key=\{d\} className=\cf7 \strokec7 "text-[10px] text-center text-stone-300 font-bold uppercase py-2"\cf0 \strokec4 >\{d\}</div>\cb1 \
+\cb3         ))\}\cb1 \
+\cb3       </div>\cb1 \
+\
+\cb3       <div className=\cf7 \strokec7 "grid grid-cols-7 gap-1"\cf0 \strokec4 >\cb1 \
+\cb3         \{blanks.map(b => <div key=\{\cf7 \strokec7 `b-\cf0 \strokec4 $\{b\}\cf7 \strokec7 `\cf0 \strokec4 \} />)\}\cb1 \
+\cb3         \{days.map(d => \{\cb1 \
+\cb3           \cf5 \strokec5 const\cf0 \strokec4  dateStr = \cf7 \strokec7 `\cf0 \strokec4 $\{viewDate.getFullYear()\}\cf7 \strokec7 -\cf0 \strokec4 $\{\cf6 \strokec6 String\cf0 \strokec4 (viewDate.getMonth() + \cf8 \strokec8 1\cf0 \strokec4 ).padStart(\cf8 \strokec8 2\cf0 \strokec4 , \cf7 \strokec7 '0'\cf0 \strokec4 )\}\cf7 \strokec7 -\cf0 \strokec4 $\{\cf6 \strokec6 String\cf0 \strokec4 (d).padStart(\cf8 \strokec8 2\cf0 \strokec4 , \cf7 \strokec7 '0'\cf0 \strokec4 )\}\cf7 \strokec7 `\cf0 \strokec4 ;\cb1 \
+\cb3           \cf5 \strokec5 const\cf0 \strokec4  hasData = !!history[dateStr];\cb1 \
+\cb3           \cf5 \strokec5 const\cf0 \strokec4  isToday = dateStr === today.toISOString().split(\cf7 \strokec7 'T'\cf0 \strokec4 )[\cf8 \strokec8 0\cf0 \strokec4 ];\cb1 \
+\cb3           \cf5 \strokec5 const\cf0 \strokec4  lotColor = history[dateStr]?.lot?.hexColor;\cb1 \
+\
+\cb3           \cf5 \strokec5 return\cf0 \strokec4  (\cb1 \
+\cb3             <button\cb1 \
+\cb3               key=\{d\}\cb1 \
+\cb3               onClick=\{() => hasData && onSelectDate(dateStr)\}\cb1 \
+\cb3               className=\{cn(\cb1 \
+\cb3                 \cf7 \strokec7 "aspect-square flex flex-col items-center justify-center rounded-2xl text-xs transition-all relative"\cf0 \strokec4 ,\cb1 \
+\cb3                 hasData ? \cf7 \strokec7 "hover:bg-stone-50 cursor-pointer"\cf0 \strokec4  : \cf7 \strokec7 "text-stone-200 cursor-default"\cf0 \strokec4 ,\cb1 \
+\cb3                 isToday && \cf7 \strokec7 "border border-stone-900"\cf0 \cb1 \strokec4 \
+\cb3               )\}\cb1 \
+\cb3             >\cb1 \
+\cb3               <span className=\{cn(hasData ? \cf7 \strokec7 "text-stone-800 font-medium"\cf0 \strokec4  : \cf7 \strokec7 "text-stone-200"\cf0 \strokec4 )\}>\{d\}</span>\cb1 \
+\cb3               \{hasData && (\cb1 \
+\cb3                 <div \cb1 \
+\cb3                   className=\cf7 \strokec7 "w-1 h-1 rounded-full mt-1"\cf0 \strokec4  \cb1 \
+\cb3                   style=\{\{ backgroundColor: lotColor || \cf7 \strokec7 '#e5e7eb'\cf0 \strokec4  \}\}\cb1 \
+\cb3                 />\cb1 \
+\cb3               )\}\cb1 \
+\cb3             </button>\cb1 \
+\cb3           );\cb1 \
+\cb3         \})\}\cb1 \
+\cb3       </div>\cb1 \
+\cb3     </div>\cb1 \
+\cb3   );\cb1 \
+\cb3 \}\cb1 \
+\
+\cf5 \cb3 \strokec5 function\cf0 \strokec4  \cf6 \strokec6 ShareModal\cf0 \strokec4 (\{ isOpen, onClose, lot \}: \{ isOpen: \cf5 \strokec5 boolean\cf0 \strokec4 , onClose: () => \cf5 \strokec5 void\cf0 \strokec4 , lot: \cf6 \strokec6 FortuneLot\cf0 \strokec4  | \cf5 \strokec5 null\cf0 \strokec4  \}) \{\cb1 \
+\cb3   \cf5 \strokec5 if\cf0 \strokec4  (!isOpen || !lot) \cf5 \strokec5 return\cf0 \strokec4  \cf5 \strokec5 null\cf0 \strokec4 ;\cb1 \
+\cb3   \cf5 \strokec5 return\cf0 \strokec4  (\cb1 \
+\cb3     <motion.div \cb1 \
+\cb3       initial=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3       animate=\{\{ opacity: \cf8 \strokec8 1\cf0 \strokec4  \}\}\cb1 \
+\cb3       exit=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3       className=\cf7 \strokec7 "fixed inset-0 z-[100] flex items-center justify-center p-6 bg-stone-900/60 backdrop-blur-sm"\cf0 \cb1 \strokec4 \
+\cb3       onClick=\{onClose\}\cb1 \
+\cb3     >\cb1 \
+\cb3       <motion.div \cb1 \
+\cb3         initial=\{\{ scale: \cf8 \strokec8 0.9\cf0 \strokec4 , y: \cf8 \strokec8 20\cf0 \strokec4  \}\}\cb1 \
+\cb3         animate=\{\{ scale: \cf8 \strokec8 1\cf0 \strokec4 , y: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3         className=\cf7 \strokec7 "bg-white w-full max-w-sm rounded-[3rem] p-10 text-center shadow-2xl relative"\cf0 \cb1 \strokec4 \
+\cb3         onClick=\{e => e.stopPropagation()\}\cb1 \
+\cb3       >\cb1 \
+\cb3         <button onClick=\{onClose\} className=\cf7 \strokec7 "absolute top-6 right-6 text-stone-300 hover:text-stone-500"\cf0 \strokec4 >\cb1 \
+\cb3           <\cf6 \strokec6 X\cf0 \strokec4  size=\{\cf8 \strokec8 24\cf0 \strokec4 \} />\cb1 \
+\cb3         </button>\cb1 \
+\cb3         <div className=\cf7 \strokec7 "w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center"\cf0 \strokec4  style=\{\{ backgroundColor: lot.hexColor + \cf7 \strokec7 '20'\cf0 \strokec4  \}\}>\cb1 \
+\cb3           <\cf6 \strokec6 Share2\cf0 \strokec4  className=\cf7 \strokec7 "text-stone-800"\cf0 \strokec4  size=\{\cf8 \strokec8 32\cf0 \strokec4 \} />\cb1 \
+\cb3         </div>\cb1 \
+\cb3         <h3 className=\cf7 \strokec7 "text-xl font-serif text-stone-800 mb-4"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u20998 \u20139 \u20320 \u30340 \u20170 \u26085 \u22909 \u36816 \cf0 \strokec4 </h3>\cb1 \
+\cb3         <p className=\cf7 \strokec7 "text-stone-400 text-xs mb-8 leading-relaxed"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u25130 \u22270 \u24403 \u21069 \u39029 \u38754 \u25110 \u22797 \u21046 \u38142 \u25509 \u65292 \u23558 \u36825 \u20221 \u26469 \u33258 \u26143 \u36784 \u30340 \u21551 \u31034 \u20256 \u36882 \u32473 \u20320 \u30340 \u26379 \u21451 \u12290 \cf0 \strokec4 </p>\cb1 \
+\cb3         <div className=\cf7 \strokec7 "grid grid-cols-2 gap-4"\cf0 \strokec4 >\cb1 \
+\cb3           <button className=\cf7 \strokec7 "py-4 bg-stone-50 rounded-2xl text-xs font-bold text-stone-600 hover:bg-stone-100 transition-all"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u22797 \u21046 \u38142 \u25509 \cf0 \strokec4 </button>\cb1 \
+\cb3           <button className=\cf7 \strokec7 "py-4 bg-stone-900 rounded-2xl text-xs font-bold text-white hover:bg-stone-800 transition-all"\cf0 \strokec4 >\cf9 \strokec9 \uc0\u20445 \u23384 \u22270 \u29255 \cf0 \strokec4 </button>\cb1 \
+\cb3         </div>\cb1 \
+\cb3       </motion.div>\cb1 \
+\cb3     </motion.div>\cb1 \
+\cb3   );\cb1 \
+\cb3 \}\cb1 \
+\
+\cf5 \cb3 \strokec5 function\cf0 \strokec4  \cf6 \strokec6 DetailModal\cf0 \strokec4 (\{ detail, onClose \}: \{ detail: \cf5 \strokec5 any\cf0 \strokec4 , onClose: () => \cf5 \strokec5 void\cf0 \strokec4  \}) \{\cb1 \
+\cb3   \cf5 \strokec5 if\cf0 \strokec4  (!detail) \cf5 \strokec5 return\cf0 \strokec4  \cf5 \strokec5 null\cf0 \strokec4 ;\cb1 \
+\cb3   \cf5 \strokec5 return\cf0 \strokec4  (\cb1 \
+\cb3     <motion.div \cb1 \
+\cb3       initial=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3       animate=\{\{ opacity: \cf8 \strokec8 1\cf0 \strokec4  \}\}\cb1 \
+\cb3       exit=\{\{ opacity: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3       className=\cf7 \strokec7 "fixed inset-0 z-[100] flex items-center justify-center p-6 bg-stone-900/60 backdrop-blur-sm"\cf0 \cb1 \strokec4 \
+\cb3       onClick=\{onClose\}\cb1 \
+\cb3     >\cb1 \
+\cb3       <motion.div \cb1 \
+\cb3         initial=\{\{ scale: \cf8 \strokec8 0.9\cf0 \strokec4 , y: \cf8 \strokec8 20\cf0 \strokec4  \}\}\cb1 \
+\cb3         animate=\{\{ scale: \cf8 \strokec8 1\cf0 \strokec4 , y: \cf8 \strokec8 0\cf0 \strokec4  \}\}\cb1 \
+\cb3         className=\cf7 \strokec7 "bg-white w-full max-w-sm rounded-[3rem] p-10 shadow-2xl relative"\cf0 \cb1 \strokec4 \
+\cb3         onClick=\{e => e.stopPropagation()\}\cb1 \
+\cb3       >\cb1 \
+\cb3         <button onClick=\{onClose\} className=\cf7 \strokec7 "absolute top-6 right-6 text-stone-300 hover:text-stone-500"\cf0 \strokec4 >\cb1 \
+\cb3           <\cf6 \strokec6 X\cf0 \strokec4  size=\{\cf8 \strokec8 24\cf0 \strokec4 \} />\cb1 \
+\cb3         </button>\cb1 \
+\cb3         <div className=\{cn(\cf7 \strokec7 "w-20 h-20 rounded-[2.5rem] mb-8 flex items-center justify-center shadow-sm"\cf0 \strokec4 , detail.bg, detail.color)\}>\cb1 \
+\cb3           <detail.icon size=\{\cf8 \strokec8 40\cf0 \strokec4 \} />\cb1 \
+\cb3         </div>\cb1 \
+\cb3         <h3 className=\cf7 \strokec7 "text-stone-400 text-[10px] uppercase tracking-[0.3em] mb-3 font-bold"\cf0 \strokec4 >\{detail.label\}</h3>\cb1 \
+\cb3         <h2 className=\cf7 \strokec7 "text-2xl font-serif text-stone-800 mb-6"\cf0 \strokec4 >\{detail.title\}</h2>\cb1 \
+\cb3         <div className=\cf7 \strokec7 "h-px w-12 bg-stone-100 mb-6"\cf0 \strokec4  />\cb1 \
+\cb3         <p className=\cf7 \strokec7 "text-stone-600 text-sm leading-relaxed font-serif italic"\cf0 \strokec4 >\cb1 \
+\cb3           \{detail.description\}\cb1 \
+\cb3         </p>\cb1 \
+\cb3         <button \cb1 \
+\cb3           onClick=\{onClose\}\cb1 \
+\cb3           className=\cf7 \strokec7 "mt-10 w-full py-5 bg-stone-50 text-stone-500 rounded-[2rem] text-xs font-bold uppercase tracking-widest hover:bg-stone-100 transition-all"\cf0 \cb1 \strokec4 \
+\cb3         >\cb1 \
+\cb3           \cf9 \strokec9 \uc0\u36820 \u22238 \u21551 \u31034 \cf0 \cb1 \strokec4 \
+\cb3         </button>\cb1 \
+\cb3       </motion.div>\cb1 \
+\cb3     </motion.div>\cb1 \
+\cb3   );\cb1 \
+\cb3 \}\cb1 \
+\
+}
